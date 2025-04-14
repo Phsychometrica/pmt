@@ -17,7 +17,17 @@
             <p class="tagline">Unlocking Potential, Shaping Futures</p>
         </header>
 
-        <section id="login-section">
+        <section id="loading-section">
+            <p>Loading application...</p>
+        </section>
+
+        <section id="error-section" class="hidden">
+            <h2>Error</h2>
+            <p id="error-message">Failed to load the application. Please try again later.</p>
+            <button class="btn" onclick="retryLoading()"><i class="fas fa-redo"></i> Retry</button>
+        </section>
+
+        <section id="login-section" class="hidden">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" placeholder="Enter username" aria-label="Username">
@@ -33,6 +43,7 @@
             <button class="btn" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
         </section>
 
+        <!-- Other sections remain the same as original -->
         <section id="standard-selection" class="hidden">
             <h2>Select Standard</h2>
             <div class="form-group">
@@ -160,56 +171,105 @@
         </section>
     </div>
 
-    <!-- Load external JavaScript files from Blogspot -->
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html"></script>
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html"></script>
 
-    <!-- Service Worker Registration -->
+    <!-- Script Loader -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
+        // Blogspot script URLs
+        const scriptUrls = [
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html'
+        ];
+
+        // Function to show alerts
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 3000);
         }
-    </script>
 
-    <!-- Cloudflare Script (unchanged) -->
-    <script>
-        (function(){
-            function c(){
-                var b = a.contentDocument || a.contentWindow.document;
-                if(b){
-                    var d = b.createElement('script');
-                    d.innerHTML = "window.__CF$cv$params={r:'9304f176ffbcb885',t:'MTc0NDY1MTk1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-                    b.getElementsByTagName('head')[0].appendChild(d);
-                }
-            }
-            if(document.body){
-                var a = document.createElement('iframe');
-                a.height = 1;
-                a.width = 1;
-                a.style.position = 'absolute';
-                a.style.top = 0;
-                a.style.left = 0;
-                a.style.border = 'none';
-                a.style.visibility = 'hidden';
-                document.body.appendChild(a);
-                if('loading' !== document.readyState) c();
-                else if(window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-                else {
-                    var e = document.onreadystatechange || function(){};
-                    document.onreadystatechange = function(b){
-                        e(b);
-                        if('loading' !== document.readyState){
-                            document.onreadystatechange = e;
-                            c();
-                        }
+        // Function to extract JavaScript code from Blogspot HTML
+        async function fetchScriptContent(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                const text = await response.text();
+                // Parse HTML to extract script content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const scripts = doc.getElementsByTagName('script');
+                for (let script of scripts) {
+                    if (script.textContent.trim()) {
+                        return script.textContent.trim();
                     }
                 }
+                throw new Error('No JavaScript content found in response');
+            } catch (error) {
+                console.error(`Failed to fetch script from ${url}:`, error);
+                throw error;
             }
-        })();
+        }
+
+        // Function to load a script by injecting it into the DOM
+        function loadScript(code, url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.text = code;
+                script.onerror = () => reject(new Error(`Failed to execute script from ${url}`));
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+        }
+
+        // Function to load all scripts sequentially
+        async function loadScripts() {
+            const loadingSection = document.getElementById('loading-section');
+            const errorSection = document.getElementById('error-section');
+            const loginSection = document.getElementById('login-section');
+            const errorMessage = document.getElementById('error-message');
+
+            try {
+                for (const url of scriptUrls) {
+                    console.log(`Fetching script from ${url}`);
+                    const code = await fetchScriptContent(url);
+                    await loadScript(code, url);
+                    console.log(`Loaded script from ${url}`);
+                }
+                // All scripts loaded successfully
+                if (loadingSection) loadingSection.classList.add('hidden');
+                if (loginSection) loginSection.classList.remove('hidden');
+                // Register service worker if supported
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('/sw.js').catch(err => {
+                        console.warn('Service Worker registration failed:', err);
+                    });
+                }
+            } catch (error) {
+                console.error('Script loading failed:', error);
+                if (loadingSection) loadingSection.classList.add('hidden');
+                if (errorSection) errorSection.classList.remove('hidden');
+                if (errorMessage) errorMessage.textContent = `Failed to load application: ${error.message}`;
+                showAlert('error', 'Failed to load application scripts.');
+            }
+        }
+
+        // Retry loading scripts
+        function retryLoading() {
+            const errorSection = document.getElementById('error-section');
+            const loadingSection = document.getElementById('loading-section');
+            if (errorSection) errorSection.classList.add('hidden');
+            if (loadingSection) loadingSection.classList.remove('hidden');
+            loadScripts();
+        }
+
+        // Start loading scripts
+        loadScripts();
     </script>
 </body>
 </html>
