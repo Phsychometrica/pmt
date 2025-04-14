@@ -160,26 +160,56 @@
         </section>
     </div>
 
-    <!-- JavaScript files fetched from Blogspot -->
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html" defer></script>
+    <!-- Load external JavaScript files from Blogspot -->
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html" defer></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html" defer></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html" defer></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html" defer></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html"></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html"></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html"></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html"></script>
 
-    <!-- Fallback for script loading errors -->
+    <!-- Service Worker Registration -->
     <script>
-        window.addEventListener('error', (event) => {
-            if (event.target.tagName === 'SCRIPT') {
-                console.error('Failed to load script:', event.target.src);
-                const fallbackAlert = document.createElement('div');
-                fallbackAlert.className = 'alert alert-error';
-                fallbackAlert.textContent = 'Failed to load some scripts. Please check your internet connection or try again later.';
-                document.body.appendChild(fallbackAlert);
-                setTimeout(() => fallbackAlert.remove(), 5000);
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+
+    <!-- Cloudflare Script (unchanged) -->
+    <script>
+        (function(){
+            function c(){
+                var b = a.contentDocument || a.contentWindow.document;
+                if(b){
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'9304f176ffbcb885',t:'MTc0NDY1MTk1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d);
+                }
             }
-        }, true);
+            if(document.body){
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if('loading' !== document.readyState) c();
+                else if(window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function(){};
+                    document.onreadystatechange = function(b){
+                        e(b);
+                        if('loading' !== document.readyState){
+                            document.onreadystatechange = e;
+                            c();
+                        }
+                    }
+                }
+            }
+        })();
     </script>
 </body>
 </html>
