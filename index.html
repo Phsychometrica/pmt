@@ -160,56 +160,87 @@
         </section>
     </div>
 
-    <!-- Load external JavaScript files from Blogspot -->
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html"></script>
+    <!-- Load jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html"></script>
-    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html"></script>
 
-    <!-- Service Worker Registration -->
+    <!-- Script to load JavaScript files dynamically from Blogspot -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
+        // List of scripts to fetch from Blogspot
+        const scripts = [
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html',
+            'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html'
+        ];
+
+        // Function to extract JavaScript code from Blogspot HTML
+        function extractScriptContent(html) {
+            // Try to find script content between <script> tags or preformatted text
+            const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|<pre\b[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>/gi;
+            const matches = html.match(scriptRegex);
+            if (matches) {
+                // Remove HTML tags and clean up
+                let scriptContent = matches.map(match => {
+                    return match.replace(/<\/?script>|<\/?pre>/gi, '').trim();
+                }).join('\n');
+                return scriptContent;
+            }
+            return '';
         }
-    </script>
 
-    <!-- Cloudflare Script (unchanged) -->
-    <script>
-        (function(){
-            function c(){
-                var b = a.contentDocument || a.contentWindow.document;
-                if(b){
-                    var d = b.createElement('script');
-                    d.innerHTML = "window.__CF$cv$params={r:'9304f176ffbcb885',t:'MTc0NDY1MTk1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-                    b.getElementsByTagName('head')[0].appendChild(d);
+        // Function to load and execute a script
+        async function loadScript(url) {
+            try {
+                const response = await fetch(url, { mode: 'cors' });
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch script from ${url}: ${response.statusText}`);
                 }
-            }
-            if(document.body){
-                var a = document.createElement('iframe');
-                a.height = 1;
-                a.width = 1;
-                a.style.position = 'absolute';
-                a.style.top = 0;
-                a.style.left = 0;
-                a.style.border = 'none';
-                a.style.visibility = 'hidden';
-                document.body.appendChild(a);
-                if('loading' !== document.readyState) c();
-                else if(window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-                else {
-                    var e = document.onreadystatechange || function(){};
-                    document.onreadystatechange = function(b){
-                        e(b);
-                        if('loading' !== document.readyState){
-                            document.onreadystatechange = e;
-                            c();
-                        }
-                    }
+                const html = await response.text();
+                const scriptContent = extractScriptContent(html);
+                if (scriptContent) {
+                    // Create a script element and append it to the DOM
+                    const script = document.createElement('script');
+                    script.textContent = scriptContent;
+                    document.head.appendChild(script);
+                    console.log(`Loaded script from ${url}`);
+                } else {
+                    console.error(`No script content found in ${url}`);
+                    showAlert('error', `Failed to load script from ${url}`);
                 }
+            } catch (error) {
+                console.error(`Error loading script from ${url}:`, error);
+                showAlert('error', `Failed to load script: ${error.message}`);
             }
-        })();
+        }
+
+        // Function to show alerts (same as in script.js for consistency)
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Load all scripts sequentially to respect dependencies
+        async function loadAllScripts() {
+            for (const url of scripts) {
+                await loadScript(url);
+            }
+        }
+
+        // Initialize script loading on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllScripts();
+        });
+
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+        }
     </script>
 </body>
 </html>
