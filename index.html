@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychometrica Pro Plus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brain-icon"><i class="fas fa-brain"></i></div>
+            <h1>Psychometrica <span class="pro">Pro</span> Plus</h1>
+            <p class="tagline">Unlocking Potential, Shaping Futures</p>
+        </header>
 
+        <section id="login-section">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter username" aria-label="Username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter password" aria-label="Password">
+            </div>
+            <button class="btn" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </section>
+
+        <section id="standard-selection" class="hidden">
+            <h2>Select Standard</h2>
+            <div class="form-group">
+                <label for="standard">Grade:</label>
+                <select id="standard" aria-label="Select Grade">
+                    <option value="">Select Grade</option>
+                    <option value="5">5th</option>
+                    <option value="6">6th</option>
+                    <option value="7">7th</option>
+                    <option value="8">8th</option>
+                    <option value="9">9th</option>
+                    <option value="10">10th</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button class="btn" onclick="showLanguageSelection()"><i class="fas fa-arrow-right"></i> Next</button>
+                <button class="btn secondary" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </section>
+
+        <section id="language-selection" class="hidden">
+            <h2>Select Language</h2>
+            <div class="button-group">
+                <button class="btn" onclick="startTest('english')"><i class="fas fa-globe"></i> English</button>
+                <button class="btn" onclick="startTest('marathi')"><i class="fas fa-globe"></i> मराठी</button>
+                <button class="btn secondary" onclick="goBack('language-selection')"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </section>
+
+        <section id="info-section" class="hidden">
+            <h2 id="info-title"></h2>
+            <div id="info-step"></div>
+            <div class="button-group">
+                <button class="btn" id="info-next-btn" onclick="nextInfoStep()"><i class="fas fa-arrow-right"></i> Next</button>
+                <button class="btn secondary" id="info-back-btn" onclick="previousInfoStep()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </section>
+
+        <section id="instructions-section" class="hidden">
+            <h2 id="instructions-title"></h2>
+            <div id="instructions-content"></div>
+            <div class="button-group">
+                <button class="btn" onclick="showTest()"><i class="fas fa-play"></i> Start Test</button>
+                <button class="btn secondary" onclick="goBack('instructions-section')"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </section>
+
+        <section id="test-section" class="hidden">
+            <h2 id="test-title"></h2>
+            <div class="progress-container">
+                <p class="progress-label">Your Progress</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text"></div>
+            </div>
+            <div id="questions"></div>
+            <div id="reward-message" class="hidden"></div>
+            <div class="button-group">
+                <button class="btn secondary" id="back-btn" onclick="previousQuestion()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="btn" id="next-btn" onclick="nextQuestion()"><i class="fas fa-arrow-right"></i> Next</button>
+                <button class="btn" id="submit-btn" onclick="submitTest()"><i class="fas fa-check"></i> Submit</button>
+            </div>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <h2 id="results-title"></h2>
+            <div id="trophy-sign" class="hidden">🏆</div>
+            <div id="result-content"></div>
+            <div class="contact-message">
+                <p>For detailed discussion and counseling regarding your child's progress plan, please contact us. Share your result with admin now for further processing.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn whatsapp-btn" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
+                <button class="btn secondary" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <button class="btn" onclick="copyResultCode()"><i class="fas fa-copy"></i> Copy Result</button>
+                <button class="btn" onclickZK="downloadCertificate()"><i class="fas fa-download"></i> Download Certificate</button>
+            </div>
+            <div class="branding-footer">
+                <p></p>
+            </div>
+        </section>
+
+        <section id="admin-section" class="hidden">
+            <h2>Admin Dashboard</h2>
+            <div class="admin-controls">
+                <button class="btn" onclick="exportAllToExcel()"><i class="fas fa-file-export"></i> Export All to CSV</button>
+                <button class="btn secondary" onclick="clearReports()"><i class="fas fa-trash"></i> Clear Reports</button>
+                <button class="btn secondary" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+            <div class="admin-form">
+                <h3>Manage Passwords</h3>
+                <div class="form-group">
+                    <label for="reset-own-password">Reset Your Password:</label>
+                    <button class="btn" onclick="resetOwnPassword()"><i class="fas fa-key"></i> Send Reset Email</button>
+                </div>
+                <div class="form-group">
+                    <label for="reset-user-email">Reset User Password (Enter User Email):</label>
+                    <input type="email" id="reset-user-email" placeholder="Enter user email" aria-label="User Email">
+                    <button class="btn" onclick="resetUserPassword()"><i class="fas fa-key"></i> Send Reset Email</button>
+                </div>
+            </div>
+            <div class="admin-form">
+                <h3>Manage Users</h3>
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body"></tbody>
+                </table>
+            </div>
+            <div class="admin-form">
+                <h3>Generate Student Development Plan</h3>
+                <div class="form-group">
+                    <label for="plan-student-name">Student's Name:</label>
+                    <input type="text" id="plan-student-name" placeholder="Enter student's name" aria-label="Student's Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-age">Age:</label>
+                    <input type="number" id="plan-age" placeholder="Enter age" min="10" max="18" aria-label="Age" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-standard">Standard:</label>
+                    <select id="plan-standard" aria-label="Select Grade" required>
+                        <option value="">Select Grade</option>
+                        <option value="5">5th</option>
+                        <option value="6">6th</option>
+                        <option value="7">7th</option>
+                        <option value="8">8th</option>
+                        <option value="9">9th</option>
+                        <option value="10">10th</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="plan-score">Score (%):</label>
+                    <input type="number" id="plan-score" placeholder="Enter score (0-100)" min="0" max="100" aria-label="Score" required>
+                </div>
+                <button class="btn" onclick="generateDevelopmentPlan()"><i class="fas fa-cogs"></i> Generate Plan</button>
+            </div>
+            <div id="plan-content" class="hidden">
+                <h3>Development Plan</h3>
+                <div id="plan-text"></div>
+                <button class="btn" onclick="copyPlan()"><i class="fas fa-copy"></i> Copy Plan</button>
+            </div>
+            <div id="admin-content"></div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="questions.js"></script>
+    <script src="results.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="plan.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+</body>
+</html>
