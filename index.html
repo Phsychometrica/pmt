@@ -165,6 +165,9 @@
 
     <!-- Script to load JavaScript files dynamically from Blogspot -->
     <script>
+        // CORS proxy to bypass Blogspot CORS restrictions
+        const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+
         // List of scripts to fetch from Blogspot
         const scripts = [
             'https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html',
@@ -176,13 +179,18 @@
 
         // Function to extract JavaScript code from Blogspot HTML
         function extractScriptContent(html) {
-            // Try to find script content between <script> tags or preformatted text
-            const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|<pre\b[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>/gi;
+            // Try to find script content between <script> tags, <pre> tags, or within specific Blogspot divs
+            const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|<pre\b[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>|<div[^>]*class="post-body[^>]*>([\s\S]*?)<\/div>/gi;
             const matches = html.match(scriptRegex);
             if (matches) {
-                // Remove HTML tags and clean up
                 let scriptContent = matches.map(match => {
-                    return match.replace(/<\/?script>|<\/?pre>/gi, '').trim();
+                    // Remove HTML tags and clean up
+                    return match
+                        .replace(/<\/?script>|<\/?pre>|<\/?div[^>]*>/gi, '')
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&amp;/g, '&')
+                        .trim();
                 }).join('\n');
                 return scriptContent;
             }
@@ -192,7 +200,9 @@
         // Function to load and execute a script
         async function loadScript(url) {
             try {
-                const response = await fetch(url, { mode: 'cors' });
+                // Use CORS proxy to fetch the script
+                const proxyUrl = `${CORS_PROXY}${url}`;
+                const response = await fetch(proxyUrl);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch script from ${url}: ${response.statusText}`);
                 }
@@ -205,12 +215,19 @@
                     document.head.appendChild(script);
                     console.log(`Loaded script from ${url}`);
                 } else {
-                    console.error(`No script content found in ${url}`);
-                    showAlert('error', `Failed to load script from ${url}`);
+                    throw new Error(`No script content found in ${url}`);
                 }
             } catch (error) {
                 console.error(`Error loading script from ${url}:`, error);
-                showAlert('error', `Failed to load script: ${error.message}`);
+                showAlert('error', `Unable to load application scripts. Please try again later or contact support. (${error.message})`);
+                // Display a user-friendly message in the UI
+                const loginSection = document.getElementById('login-section');
+                if (loginSection) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-error';
+                    errorDiv.textContent = 'Application failed to load. Please check your internet connection or try again later.';
+                    loginSection.insertBefore(errorDiv, loginSection.firstChild);
+                }
             }
         }
 
@@ -220,7 +237,7 @@
             alertDiv.className = `alert alert-${type}`;
             alertDiv.textContent = message;
             document.body.appendChild(alertDiv);
-            setTimeout(() => alertDiv.remove(), 3000);
+            setTimeout(() => alertDiv.remove(), 5000); // Increased timeout for better visibility
         }
 
         // Load all scripts sequentially to respect dependencies
@@ -232,10 +249,22 @@
 
         // Initialize script loading on page load
         document.addEventListener('DOMContentLoaded', () => {
-            loadAllScripts();
+            // Check if CORS proxy is accessible
+            fetch(CORS_PROXY)
+                .then(() => loadAllScripts())
+                .catch(() => {
+                    showAlert('error', 'CORS proxy unavailable. Application cannot load scripts.');
+                    const loginSection = document.getElementById('login-section');
+                    if (loginSection) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'alert alert-error';
+                        errorDiv.textContent = 'Application cannot load due to server issues. Please try again later.';
+                        loginSection.insertBefore(errorDiv, loginSection.firstChild);
+                    }
+                });
         });
 
-        // Service Worker registration
+        // Service Worker registration (optional)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(error => {
                 console.error('Service Worker registration failed:', error);
