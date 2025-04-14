@@ -133,14 +133,6 @@ h2::after {
     border-radius: 2px;
 }
 
-.tagline {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    font-weight: 500;
-    opacity: 1;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-}
-
 .branding {
     color: var(--text-light);
     font-size: 1rem;
@@ -277,25 +269,6 @@ h2::after {
 /* Hidden Class */
 .hidden {
     display: none;
-}
-
-/* Loading and Error Sections */
-#loading-section, #error-section {
-    text-align: center;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-}
-
-#loading-section p, #error-section p {
-    font-size: 1rem;
-    color: var(--text-dark);
-}
-
-#error-message {
-    color: var(--text-dark);
-    margin-bottom: 20px;
 }
 
 /* Progress Bar */
@@ -637,6 +610,49 @@ h2::after {
     font-size: 1rem;
 }
 
+/* Clients Table */
+#clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+#clients-table th,
+#clients-table td {
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+#clients-table th {
+    background: var(--primary);
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+#clients-table tr:nth-child(even) {
+    background: rgba(248, 250, 252, 0.95);
+}
+
+/* Encrypted Output */
+#encrypted-code {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 16px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    box-shadow: var(--shadow-soft);
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
 /* Section Animations */
 section {
     opacity: 0;
@@ -751,6 +767,12 @@ section:not(.hidden) {
     #welcome-section p {
         font-size: 1rem;
     }
+
+    #clients-table th,
+    #clients-table td {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -775,8 +797,19 @@ section:not(.hidden) {
         font-size: 0.9rem;
     }
 
+    #results-table th,
+    #results-table td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
     .container {
         padding: 16px;
+    }
+
+    #encrypted-code {
+        font-size: 0.8rem;
+        padding: 12px;
     }
 }
 
@@ -796,3 +829,12 @@ section:not(.hidden) {
         transform: none;
     }
 }
+
+.tagline {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 1;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
