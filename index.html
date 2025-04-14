@@ -26,6 +26,10 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" placeholder="Enter password" aria-label="Password">
             </div>
+            <div class="form-group">
+                <label for="secret-key">Secret Key:</label>
+                <input type="password" id="secret-key" placeholder="Enter secret key" aria-label="Secret Key">
+            </div>
             <button class="btn" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
         </section>
 
@@ -105,7 +109,7 @@
                 <button class="btn whatsapp-btn" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
                 <button class="btn secondary" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 <button class="btn" onclick="copyResultCode()"><i class="fas fa-copy"></i> Copy Result</button>
-                <button class="btn" onclickZK="downloadCertificate()"><i class="fas fa-download"></i> Download Certificate</button>
+                <button class="btn" onclick="downloadCertificate()"><i class="fas fa-download"></i> Download Certificate</button>
             </div>
             <div class="branding-footer">
                 <p></p>
@@ -118,30 +122,6 @@
                 <button class="btn" onclick="exportAllToExcel()"><i class="fas fa-file-export"></i> Export All to CSV</button>
                 <button class="btn secondary" onclick="clearReports()"><i class="fas fa-trash"></i> Clear Reports</button>
                 <button class="btn secondary" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
-            <div class="admin-form">
-                <h3>Manage Passwords</h3>
-                <div class="form-group">
-                    <label for="reset-own-password">Reset Your Password:</label>
-                    <button class="btn" onclick="resetOwnPassword()"><i class="fas fa-key"></i> Send Reset Email</button>
-                </div>
-                <div class="form-group">
-                    <label for="reset-user-email">Reset User Password (Enter User Email):</label>
-                    <input type="email" id="reset-user-email" placeholder="Enter user email" aria-label="User Email">
-                    <button class="btn" onclick="resetUserPassword()"><i class="fas fa-key"></i> Send Reset Email</button>
-                </div>
-            </div>
-            <div class="admin-form">
-                <h3>Manage Users</h3>
-                <table id="users-table">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-table-body"></tbody>
-                </table>
             </div>
             <div class="admin-form">
                 <h3>Generate Student Development Plan</h3>
@@ -180,16 +160,26 @@
         </section>
     </div>
 
+    <!-- JavaScript files fetched from Blogspot -->
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-authjs.html" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="questions.js"></script>
-    <script src="results.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
-    <script src="plan.js"></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/cryonix-428506913784052-questionsjs.html" defer></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/nexovortex-649381750293-resultjs.html" defer></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/zetaquantum-873920146528-sriptjs.html" defer></script>
+    <script src="https://js58965869456823140008564wdgvbjscript.blogspot.com/p/hyperionflux-528493710346892-planjs.html" defer></script>
+
+    <!-- Fallback for script loading errors -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-        }
+        window.addEventListener('error', (event) => {
+            if (event.target.tagName === 'SCRIPT') {
+                console.error('Failed to load script:', event.target.src);
+                const fallbackAlert = document.createElement('div');
+                fallbackAlert.className = 'alert alert-error';
+                fallbackAlert.textContent = 'Failed to load some scripts. Please check your internet connection or try again later.';
+                document.body.appendChild(fallbackAlert);
+                setTimeout(() => fallbackAlert.remove(), 5000);
+            }
+        }, true);
     </script>
 </body>
 </html>
