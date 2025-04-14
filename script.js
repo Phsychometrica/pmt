@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     let selectedStandard = '';
     let selectedLanguage = '';
@@ -8,12 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentQuestionIndex = 0;
     let userAnswers = {};
     let currentInfoStep = 0;
-
-    const RESULTS_STORAGE_KEY = 'psychometric_results';
-    const db = window.firebaseDb;
-    const auth = window.firebaseAuth;
-    const { collection, addDoc, getDocs, query, where, deleteDoc, doc } = db;
-    const { sendPasswordResetEmail } = auth;
 
     window.login = login;
     window.confirmLogout = confirmLogout;
@@ -39,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.resetUserPassword = resetUserPassword;
 
     function showAlert(type, message) {
-        console.log(`Alert: ${type} - ${message}`);
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type}`;
         alertDiv.textContent = message;
@@ -49,56 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadResults() {
         try {
-            allResults = [];
-            const resultsRef = collection(db, 'testResults');
-            const querySnapshot = await getDocs(resultsRef);
-            querySnapshot.forEach(doc => {
-                allResults.push({ id: doc.id, ...doc.data() });
-            });
-            console.log('Loaded results from Firestore:', allResults);
+            const response = await fetch('http://localhost:3000/api/results');
+            const result = await response.json();
+            if (result.success) {
+                allResults = result.results;
+            }
         } catch (error) {
-            console.error('Error loading results from Firestore:', error);
             showAlert('error', 'Failed to load previous results.');
         }
     }
 
     async function loadUsers() {
         try {
-            const usersRef = collection(db, 'users');
-            const querySnapshot = await getDocs(usersRef);
-            const users = [];
-            querySnapshot.forEach(doc => {
-                const data = doc.data();
-                users.push({ email: data.email, role: data.role });
-            });
-            console.log('Loaded users from Firestore:', users);
-            return users;
+            // Implement server-side user fetch if needed
+            return [];
         } catch (error) {
-            console.error('Error loading users:', error);
             showAlert('error', 'Failed to load users.');
             return [];
         }
     }
 
     function resetUI() {
-        console.log('Resetting UI');
         const sections = [
             'login-section', 'standard-selection', 'language-selection',
             'info-section', 'instructions-section', 'test-section',
             'results-section', 'admin-section'
         ];
-        sections.forEach(id => {
-            const section = document.getElementById(id);
-            if (section) section.classList.add('hidden');
-        });
-        const loginSection = document.getElementById('login-section');
-        if (loginSection) loginSection.classList.remove('hidden');
-
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        if (usernameInput) usernameInput.value = '';
-        if (passwordInput) passwordInput.value = '';
-
+        sections.forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        document.getElementById('login-section')?.classList.remove('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
         currentInfoStep = 0;
         currentQuestionIndex = 0;
         userAnswers = {};
@@ -108,64 +80,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showWelcomeScreen() {
-        console.log('Showing welcome screen');
         const branding = window.getClientBranding();
         if (!branding) {
-            console.error('Branding not found');
             showAlert('error', 'Client branding not found.');
             return;
         }
-
         const container = document.querySelector('.container');
-        if (!container) {
-            console.error('Container not found');
-            showAlert('error', 'Page structure error.');
-            return;
-        }
-
         const welcomeSection = document.createElement('section');
         welcomeSection.id = 'welcome-section';
         welcomeSection.innerHTML = `
-            <h2>Welcome to ${branding.name || 'Psychometrica Pro Plus'}</h2>
-            <p>${branding.address || 'Address not available'}</p>
-            <p><i class="fas fa-phone"></i> ${branding.phone || 'Contact not available'}</p>
+            <h2>Welcome to ${branding.name}</h2>
+            <p>${branding.address}</p>
+            <p><i class="fas fa-phone"></i> ${branding.phone}</p>
         `;
         container.appendChild(welcomeSection);
-
         setTimeout(() => {
-            console.log('Preparing to remove welcome screen');
             welcomeSection.classList.add('exiting');
             setTimeout(() => {
-                console.log('Removing welcome screen');
                 welcomeSection.remove();
                 if (currentUser && currentUser.role === 'admin') {
-                    console.log('Navigating to admin dashboard');
                     showAdminDashboard();
                 } else {
-                    console.log('Navigating to standard selection');
-                    const standardSection = document.getElementById('standard-selection');
-                    if (standardSection) {
-                        standardSection.classList.remove('hidden');
-                        updateBrandingThroughout();
-                    } else {
-                        console.error('Standard selection section not found');
-                        showAlert('error', 'Standard selection section not found.');
-                    }
+                    document.getElementById('standard-selection')?.classList.remove('hidden');
+                    updateBrandingThroughout();
                 }
             }, 400);
         }, 3000);
     }
 
     function updateBrandingThroughout() {
-        console.log('Updating branding');
         const branding = window.getClientBranding();
         if (!branding) return;
-
         const sections = [
             'standard-selection', 'language-selection', 'info-section',
             'instructions-section', 'test-section', 'results-section', 'admin-section'
         ];
-
         sections.forEach(sectionId => {
             const section = document.getElementById(sectionId);
             if (section && !section.classList.contains('hidden')) {
@@ -181,14 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.appendChild(brandingDiv);
             }
         });
-
         const resultsSection = document.getElementById('results-section');
         if (resultsSection && !resultsSection.classList.contains('hidden')) {
             const contactMessage = document.querySelector('.contact-message p');
             if (contactMessage) {
                 contactMessage.innerHTML = `For detailed discussion and counseling regarding your child's progress plan, please contact ${branding.name} at <i class="fas fa-phone"></i> <strong>${branding.phone}</strong>. Share your result with admin now for further processing.`;
             }
-
             const brandingFooter = document.querySelector('.branding-footer p');
             if (brandingFooter) {
                 brandingFooter.innerHTML = `${branding.name}, ${branding.address} | <i class="fas fa-phone"></i> ${branding.phone}`;
@@ -197,49 +144,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function login() {
-        console.log('Login button clicked - starting login process');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-
-        if (!usernameInput || !passwordInput) {
-            console.error('Username or password input not found');
-            showAlert('error', 'Login form is incomplete.');
-            return;
-        }
-
-        const email = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-
+        const email = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
         if (!email || !password) {
-            console.log('Empty credentials entered');
             showAlert('error', 'Please enter both email and password.');
             return;
         }
-
         const authResult = await window.authenticate(email, password);
-        console.log('Authentication result:', authResult);
-
         if (authResult) {
             currentUser = authResult;
-            console.log('Current user set:', currentUser);
-            const loginSection = document.getElementById('login-section');
-            if (loginSection) {
-                console.log('Hiding login section');
-                loginSection.classList.add('hidden');
-                showWelcomeScreen();
-            } else {
-                console.error('Login section not found');
-                showAlert('error', 'Login section not found.');
-            }
+            document.getElementById('login-section').classList.add('hidden');
+            showWelcomeScreen();
         } else {
-            console.log('Authentication failed');
             showAlert('error', 'Invalid email or password.');
         }
     }
 
     async function confirmLogout() {
         if (confirm('Are you sure you want to logout?')) {
-            console.log('Logging out');
             await window.logout();
             currentUser = null;
             resetUI();
@@ -247,52 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function resetOwnPassword() {
-        console.log('Resetting admin password');
-        if (!currentUser) {
-            showAlert('error', 'You must be logged in to reset your password.');
-            return;
-        }
-
-        try {
-            await sendPasswordResetEmail(auth, currentUser.email);
-            showAlert('success', 'Password reset email sent to your email address.');
-        } catch (error) {
-            console.error('Error sending password reset email:', error);
-            showAlert('error', `Failed to send password reset email: ${error.message}`);
-        }
+        showAlert('error', 'Password reset not implemented on client-side.');
     }
 
     async function resetUserPassword() {
-        console.log('Resetting user password');
-        const userEmailInput = document.getElementById('reset-user-email');
-        if (!userEmailInput) {
-            showAlert('error', 'Email input not found.');
-            return;
-        }
-
-        const userEmail = userEmailInput.value.trim();
-        if (!userEmail) {
-            showAlert('error', 'Please enter the user\'s email address.');
-            return;
-        }
-
-        if (currentUser.role !== 'admin') {
-            showAlert('error', 'Only admins can reset other users\' passwords.');
-            return;
-        }
-
-        try {
-            await sendPasswordResetEmail(auth, userEmail);
-            showAlert('success', `Password reset email sent to ${userEmail}.`);
-            userEmailInput.value = '';
-        } catch (error) {
-            console.error('Error sending password reset email:', error);
-            showAlert('error', `Failed to send password reset email: ${error.message}`);
-        }
+        showAlert('error', 'Password reset not implemented on client-side.');
     }
 
     function goBack(currentSection) {
-        console.log(`Going back from ${currentSection}`);
         const sections = {
             'language-selection': 'standard-selection',
             'info-section': 'language-selection',
@@ -306,50 +190,28 @@ document.addEventListener('DOMContentLoaded', () => {
             target.classList.remove('hidden');
             updateBrandingThroughout();
         } else {
-            console.error('Navigation error: Sections not found');
             showAlert('error', 'Navigation error occurred.');
         }
         if (currentSection === 'test-section') currentQuestionIndex = 0;
     }
 
     function showLanguageSelection() {
-        console.log('Showing language selection');
-        const standardSelect = document.getElementById('standard');
-        selectedStandard = standardSelect?.value;
+        selectedStandard = document.getElementById('standard').value;
         if (!selectedStandard) {
             showAlert('error', 'Please select a grade.');
             return;
         }
-
-        const standardSection = document.getElementById('standard-selection');
-        const languageSection = document.getElementById('language-selection');
-        if (standardSection && languageSection) {
-            standardSection.classList.add('hidden');
-            languageSection.classList.remove('hidden');
-            updateBrandingThroughout();
-        } else {
-            console.error('Navigation error: Sections not found');
-            showAlert('error', 'Navigation error: Sections not found.');
-        }
+        document.getElementById('standard-selection').classList.add('hidden');
+        document.getElementById('language-selection').classList.remove('hidden');
+        updateBrandingThroughout();
     }
 
     function startTest(language) {
-        console.log(`Starting test in ${language}`);
         selectedLanguage = language;
-        const languageSection = document.getElementById('language-selection');
-        const infoSection = document.getElementById('info-section');
-        if (languageSection && infoSection) {
-            languageSection.classList.add('hidden');
-            infoSection.classList.remove('hidden');
-            updateBrandingThroughout();
-        } else {
-            console.error('Navigation error: Sections not found');
-            showAlert('error', 'Navigation error: Sections not found.');
-        }
-        const infoTitle = document.getElementById('info-title');
-        if (infoTitle) {
-            infoTitle.textContent = language === 'english' ? 'Student Information' : 'विद्यार्थ्याची माहिती';
-        }
+        document.getElementById('language-selection').classList.add('hidden');
+        document.getElementById('info-section').classList.remove('hidden');
+        document.getElementById('info-title').textContent = language === 'english' ? 'Student Information' : 'विद्यार्थ्याची माहिती';
+        updateBrandingThroughout();
         loadInfoStep(currentInfoStep);
     }
 
@@ -373,14 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function loadInfoStep(step) {
-        console.log(`Loading info step ${step}`);
         const field = infoFields[step];
         const stepDiv = document.getElementById('info-step');
-        if (!stepDiv) {
-            console.error('Info step div not found');
-            return;
-        }
-
         stepDiv.innerHTML = `
             <div class="form-group">
                 <label for="${field.id}">${selectedLanguage === 'english' ? field.labelEn : field.labelMr}</label>
@@ -392,75 +248,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             </div>
         `;
-
         if (field.id === 'grade') {
-            const gradeInput = document.getElementById('grade');
-            if (gradeInput) {
-                gradeInput.value = selectedStandard + (selectedLanguage === 'english' ? 'th' : 'वी');
-            }
+            document.getElementById('grade').value = selectedStandard + (selectedLanguage === 'english' ? 'th' : 'वी');
         }
-
-        const backBtn = document.getElementById('info-back-btn');
-        const nextBtn = document.getElementById('info-next-btn');
-        if (backBtn) backBtn.style.display = step > 0 ? 'inline-block' : 'none';
-        if (nextBtn) {
-            nextBtn.textContent = step === infoFields.length - 1 ?
-                (selectedLanguage === 'english' ? 'Finish' : 'संपवा') :
-                (selectedLanguage === 'english' ? 'Next' : 'पुढे');
-        }
+        document.getElementById('info-back-btn').style.display = step > 0 ? 'inline-block' : 'none';
+        document.getElementById('info-next-btn').textContent = step === infoFields.length - 1 ?
+            (selectedLanguage === 'english' ? 'Finish' : 'संपवा') :
+            (selectedLanguage === 'english' ? 'Next' : 'पुढे');
     }
 
     function nextInfoStep() {
-        console.log('Moving to next info step');
         const field = infoFields[currentInfoStep];
         const inputElement = document.getElementById(field.id);
         const input = field.type === 'select' ? inputElement.value : inputElement.value.trim();
-
         if (!input && !field.readonly) {
             showAlert('error', selectedLanguage === 'english' ? 'Please fill in this field.' : 'कृपया हा रकाना भरा.');
             return;
         }
-
         if (field.id === 'grade') {
-            const gradeValue = selectedStandard + (selectedLanguage === 'english' ? 'th' : 'वी');
-            studentData[field.id] = gradeValue;
+            studentData[field.id] = selectedStandard + (selectedLanguage === 'english' ? 'th' : 'वी');
         } else {
             studentData[field.id] = input;
         }
-
         currentInfoStep++;
         if (currentInfoStep < infoFields.length) {
             loadInfoStep(currentInfoStep);
         } else {
-            const infoSection = document.getElementById('info-section');
-            const instructionsSection = document.getElementById('instructions-section');
-            if (infoSection && instructionsSection) {
-                infoSection.classList.add('hidden');
-                instructionsSection.classList.remove('hidden');
-                const title = document.getElementById('instructions-title');
-                const content = document.getElementById('instructions-content');
-                if (title) title.textContent = selectedLanguage === 'english' ? 'Instructions' : 'सूचना';
-                if (content) {
-                    content.innerHTML = selectedLanguage === 'english' ? `
-                        <p>No time limit.</p>
-                        <p>All questions are compulsory.</p>
-                        <p>All the best!</p>
-                    ` : `
-                        <p>वेळेची मर्यादा नाही.</p>
-                        <p>सर्व प्रश्न अनिवार्य आहेत.</p>
-                        <p>सर्वांना शुभेच्छा!</p>
-                    `;
-                }
-                updateBrandingThroughout();
-            } else {
-                console.error('Navigation error: Sections not found');
-                showAlert('error', 'Navigation error: Sections not found.');
-            }
+            document.getElementById('info-section').classList.add('hidden');
+            document.getElementById('instructions-section').classList.remove('hidden');
+            document.getElementById('instructions-title').textContent = selectedLanguage === 'english' ? 'Instructions' : 'सूचना';
+            document.getElementById('instructions-content').innerHTML = selectedLanguage === 'english' ? `
+                <p>No time limit.</p>
+                <p>All questions are compulsory.</p>
+                <p>All the best!</p>
+            ` : `
+                <p>वेळेची मर्यादा नाही.</p>
+                <p>सर्व प्रश्न अनिवार्य आहेत.</p>
+                <p>सर्वांना शुभेच्छा!</p>
+            `;
+            updateBrandingThroughout();
         }
     }
 
     function previousInfoStep() {
-        console.log('Moving to previous info step');
         if (currentInfoStep > 0) {
             const field = infoFields[currentInfoStep];
             const inputElement = document.getElementById(field.id);
@@ -473,42 +303,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showTest() {
-        console.log('Showing test screen');
-        const instructionsSection = document.getElementById('instructions-section');
-        const testSection = document.getElementById('test-section');
-        if (instructionsSection && testSection) {
-            instructionsSection.classList.add('hidden');
-            testSection.classList.remove('hidden');
-            updateBrandingThroughout();
-        } else {
-            console.error('Navigation error: Sections not found');
-            showAlert('error', 'Navigation error: Sections not found.');
-        }
-        const testTitle = document.getElementById('test-title');
-        if (testTitle) {
-            testTitle.textContent = selectedLanguage === 'english' ?
-                `Psychological Test for Grade ${selectedStandard}` :
-                `इयत्ता ${selectedStandard} साठी मनोवैज्ञानिक चाचणी`;
-        }
+        document.getElementById('instructions-section').classList.add('hidden');
+        document.getElementById('test-section').classList.remove('hidden');
+        document.getElementById('test-title').textContent = selectedLanguage === 'english' ?
+            `Psychological Test for Grade ${selectedStandard}` :
+            `इयत्ता ${selectedStandard} साठी मनोवैज्ञानिक चाचणी`;
+        updateBrandingThroughout();
         loadQuestion(currentQuestionIndex);
     }
 
     function loadQuestion(index) {
-        console.log(`Loading question ${index + 1}`);
         const qDiv = document.getElementById('questions');
-        if (!qDiv) {
-            console.error('Questions div not found');
-            return;
-        }
-
         qDiv.innerHTML = '';
         const questions = selectedStandard <= 8 ? window.questions5to8?.[selectedLanguage] : window.questions9to10?.[selectedLanguage];
         if (!questions) {
-            console.error('Questions not found');
             showAlert('error', 'Questions not found.');
             return;
         }
-
         if (index < questions.length) {
             const q = questions[index];
             const div = document.createElement('div');
@@ -525,52 +336,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
             qDiv.appendChild(div);
-
-            const progressFill = document.getElementById('progress-fill');
-            const progressText = document.getElementById('progress-text');
-            const backBtn = document.getElementById('back-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const submitBtn = document.getElementById('submit-btn');
-            if (progressFill) progressFill.style.width = `${((index + 1) / questions.length) * 100}%`;
-            if (progressText) progressText.textContent = `Question ${index + 1} of ${questions.length}`;
-            if (backBtn) backBtn.style.display = index > 0 ? 'inline-block' : 'none';
-            if (nextBtn) nextBtn.style.display = index < questions.length - 1 ? 'inline-block' : 'none';
-            if (submitBtn) submitBtn.style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+            document.getElementById('progress-fill').style.width = `${((index + 1) / questions.length) * 100}%`;
+            document.getElementById('progress-text').textContent = `Question ${index + 1} of ${questions.length}`;
+            document.getElementById('back-btn').style.display = index > 0 ? 'inline-block' : 'none';
+            document.getElementById('next-btn').style.display = index < questions.length - 1 ? 'inline-block' : 'none';
+            document.getElementById('submit-btn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
         }
     }
 
     function nextQuestion() {
-        console.log('Moving to next question');
         const questions = selectedStandard <= 8 ? window.questions5to8?.[selectedLanguage] : window.questions9to10?.[selectedLanguage];
-        if (!questions) {
-            console.error('Questions not found');
-            showAlert('error', 'Questions not found.');
-            return;
-        }
-
         const selected = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
         if (!selected) {
             showAlert('error', selectedLanguage === 'english' ? 'Please select an option.' : 'कृपया एक पर्याय निवडा.');
             return;
         }
-
-        const validOptions = selectedStandard <= 8 ?
-            questions[currentQuestionIndex].options :
-            ["Like", "Neutral", "Dislike", "आवडते", "ठीक आहे", "आवडत नाही"];
-        if (!validOptions.includes(selected.value)) {
-            console.error('Invalid option selected:', selected.value);
-            showAlert('error', 'Invalid option selected.');
-            return;
-        }
-
         userAnswers[currentQuestionIndex] = selected.value;
-
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) loadQuestion(currentQuestionIndex);
     }
 
     function previousQuestion() {
-        console.log('Moving to previous question');
         const selected = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
         if (selected) userAnswers[currentQuestionIndex] = selected.value;
         if (currentQuestionIndex > 0) {
@@ -580,22 +366,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function submitTest() {
-        console.log('Submitting test');
         const questions = selectedStandard <= 8 ? window.questions5to8?.[selectedLanguage] : window.questions9to10?.[selectedLanguage];
-        if (!questions) {
-            console.error('Questions not found');
-            showAlert('error', 'Questions not found.');
-            return;
-        }
-
         const selected = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
         if (!selected) {
             showAlert('error', selectedLanguage === 'english' ? 'Please select an option.' : 'कृपया एक पर्याय निवडा.');
             return;
         }
-
         userAnswers[currentQuestionIndex] = selected.value;
-
         let allAnswered = true;
         let unansweredQuestions = [];
         for (let i = 0; i < questions.length; i++) {
@@ -604,54 +381,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 unansweredQuestions.push(i + 1);
             }
         }
-
         if (!allAnswered) {
-            const errorMessage = selectedLanguage === 'english' ?
+            showAlert('error', selectedLanguage === 'english' ?
                 `Please answer all questions. Unanswered: ${unansweredQuestions.join(', ')}` :
-                `कृपया सर्व प्रश्नांची उत्तरे द्या. अनुत्तरित: ${unansweredQuestions.join(', ')}`;
-            showAlert('error', errorMessage);
+                `कृपया सर्व प्रश्नांची उत्तरे द्या. अनुत्तरित: ${unansweredQuestions.join(', ')}`);
             return;
         }
-
         try {
             const result = window.calculateResults?.(Number(selectedStandard), selectedLanguage, userAnswers);
-            if (!result || !result.detailedResult) {
-                throw new Error('Result calculation failed.');
-            }
-
+            if (!result || !result.detailedResult) throw new Error('Result calculation failed.');
             const fullResult = { ...studentData, ...result };
-
-            const resultData = {
-                userId: currentUser.clientId,
-                date: fullResult.date,
-                studentData: studentData,
-                summary: fullResult.summary,
-                detailedResult: fullResult.detailedResult
-            };
-            await addDoc(collection(db, 'testResults'), resultData);
-            console.log('Test result saved to Firestore:', resultData);
-
+            await fetch('http://localhost:3000/api/saveResult', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: currentUser.clientId, resultData: fullResult })
+            });
             allResults.push(fullResult);
-
-            const testSection = document.getElementById('test-section');
-            if (testSection) testSection.classList.add('hidden');
+            document.getElementById('test-section').classList.add('hidden');
             showAlert('success', selectedLanguage === 'english' ?
                 `Test completed, ${studentData['student-name']}!` :
                 `चाचणी पूर्ण झाली, ${studentData['student-name']}!`);
-
             setTimeout(() => {
                 const resultsSection = document.getElementById('results-section');
-                if (!resultsSection) {
-                    console.error('Results section not found');
-                    throw new Error('Results section not found.');
-                }
                 resultsSection.classList.remove('hidden');
-                const title = document.getElementById('results-title');
-                const trophy = document.getElementById('trophy-sign');
-                const content = document.getElementById('result-content');
-                if (title) title.textContent = selectedLanguage === 'english' ? 'Your Results' : 'तुमचे निकाल';
-                if (trophy) trophy.classList.remove('hidden');
-
+                document.getElementById('results-title').textContent = selectedLanguage === 'english' ? 'Your Results' : 'तुमचे निकाल';
+                document.getElementById('trophy-sign').classList.remove('hidden');
                 const scores = fullResult.detailedResult?.scores || {};
                 const scoresDisplay = selectedStandard <= 8 ?
                     `<p><strong>Score:</strong> ${scores.score ?? 'N/A'}/${scores.totalQuestions ?? 'N/A'} (${scores.percentage ?? 'N/A'}%)</p>` :
@@ -663,80 +417,66 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><strong>Enterprising:</strong> ${scores.enterprising ?? 'N/A'}</p>
                         <p><strong>Conventional:</strong> ${scores.conventional ?? 'N/A'}</p>
                     `;
-
-                if (content) {
-                    content.innerHTML = `
-                        <div class="result-details">
-                            <p><strong>Date:</strong> ${fullResult.date}</p>
-                            <p><strong>Student:</strong> ${fullResult['student-name']}</p>
-                            <p><strong>Parent:</strong> ${fullResult['parent-name']}</p>
-                            <p><strong>Mobile:</strong> ${fullResult.mobile}</p>
-                            <p><strong>Email:</strong> ${fullResult.email}</p>
-                            <p><strong>Grade:</strong> ${fullResult.grade}</p>
-                            <p><strong>Board:</strong> ${fullResult.board}</p>
-                            ${scoresDisplay}
-                            <p><strong>Summary:</strong> ${fullResult.summary}</p>
-                            <p><strong>Analysis:</strong> ${fullResult.detailedResult.analysis}</p>
-                            <h4>Recommendations</h4>
-                            <div class="recommendations-toggle" onclick="toggleRecommendations()">Click to Expand</div>
-                            <ol class="recommendations-list" id="recommendations-list">
-                                ${fullResult.detailedResult.recommendations.map(r => `<li>${r}</li>`).join('')}
-                            </ol>
-                        </div>
-                    `;
-                }
+                document.getElementById('result-content').innerHTML = `
+                    <div class="result-details">
+                        <p><strong>Date:</strong> ${fullResult.date}</p>
+                        <p><strong>Student:</strong> ${fullResult['student-name']}</p>
+                        <p><strong>Parent:</strong> ${fullResult['parent-name']}</p>
+                        <p><strong>Mobile:</strong> ${fullResult.mobile}</p>
+                        <p><strong>Email:</strong> ${fullResult.email}</p>
+                        <p><strong>Grade:</strong> ${fullResult.grade}</p>
+                        <p><strong>Board:</strong> ${fullResult.board}</p>
+                        ${scoresDisplay}
+                        <p><strong>Summary:</strong> ${fullResult.summary}</p>
+                        <p><strong>Analysis:</strong> ${fullResult.detailedResult.analysis}</p>
+                        <h4>Recommendations</h4>
+                        <div class="recommendations-toggle" onclick="toggleRecommendations()">Click to Expand</div>
+                        <ol class="recommendations-list" id="recommendations-list">
+                            ${fullResult.detailedResult.recommendations.map(r => `<li>${r}</li>`).join('')}
+                        </ol>
+                    </div>
+                `;
                 updateBrandingThroughout();
             }, 2000);
         } catch (error) {
-            console.error('Error submitting test:', error);
             showAlert('error', `Failed to submit test: ${error.message}`);
         }
     }
 
     function toggleRecommendations() {
-        console.log('Toggling recommendations');
-        const list = document.getElementById('recommendations-list');
-        if (list) list.classList.toggle('active');
+        document.getElementById('recommendations-list').classList.toggle('active');
     }
 
     function shareOnWhatsApp() {
-        console.log('Sharing on WhatsApp');
-        const resultContent = document.getElementById('result-content');
-        if (resultContent?.textContent) {
-            const branding = window.getClientBranding();
-            const whatsappUrl = `https://wa.me/${branding.phone}?text=${encodeURIComponent(resultContent.textContent)}`;
+        const resultContent = document.getElementById('result-content').textContent;
+        const branding = window.getClientBranding();
+        if (resultContent) {
+            const whatsappUrl = `https://wa.me/${branding.phone}?text=${encodeURIComponent(resultContent)}`;
             window.open(whatsappUrl, '_blank');
         } else {
-            console.error('No results to share');
             showAlert('error', 'No results to share.');
         }
     }
 
     function copyResultCode() {
-        console.log('Copying results');
-        const resultContent = document.getElementById('result-content');
-        if (resultContent?.textContent) {
-            navigator.clipboard.writeText(resultContent.textContent).then(() => {
+        const resultContent = document.getElementById('result-content').textContent;
+        if (resultContent) {
+            navigator.clipboard.writeText(resultContent).then(() => {
                 showAlert('success', 'Result copied to clipboard.');
             }).catch(() => {
-                console.error('Failed to copy result');
                 showAlert('error', 'Failed to copy result.');
             });
         } else {
-            console.error('No results to copy');
             showAlert('error', 'No results to copy.');
         }
     }
 
     function downloadCertificate() {
-        console.log('Downloading certificate');
         const branding = window.getClientBranding();
         if (!window.jspdf || !window.jspdf.jsPDF) {
-            console.error('jsPDF library not loaded');
             showAlert('error', 'Certificate generation library not loaded.');
             return;
         }
-
         try {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
@@ -744,20 +484,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 unit: 'mm',
                 format: 'a4'
             });
-
             doc.setLineWidth(2);
             doc.setDrawColor(218, 165, 32);
             doc.rect(8, 8, 281, 194, 'S');
             doc.setLineWidth(1);
             doc.setDrawColor(0, 86, 112);
             doc.rect(11, 11, 275, 188, 'S');
-
             doc.setFillColor(255, 111, 97);
             doc.triangle(100, 30, 197, 30, 148.5, 50, 'F');
             doc.setFontSize(12);
             doc.setTextColor(255, 255, 255);
             doc.text('Certified', 148.5, 40, { align: 'center' });
-
             doc.setFillColor(0, 86, 112);
             doc.rect(30, 15, 237, 25, 'F');
             doc.setFontSize(28);
@@ -766,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.text('Psychometrica Pro Plus', 148.5, 25, { align: 'center' });
             doc.setFontSize(14);
             doc.text(`${branding.name}, ${branding.address}`, 148.5, 35, { align: 'center' });
-
             doc.setFontSize(20);
             doc.setTextColor(0, 0, 0);
             doc.text('Certificate of Completion', 148.5, 70, { align: 'center' });
@@ -779,7 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.setFontSize(14);
             doc.setFont('times', 'normal');
             doc.setTextColor(0, 0, 0);
-
             const formattedGrade = selectedStandard ?
                 (selectedStandard + (selectedLanguage === 'english' ? 'th' : 'वी')) :
                 (studentData.grade?.replace(/[^0-9thवी]/g, '') || 'N/A');
@@ -787,7 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.text(`Board: ${studentData.board || 'N/A'}`, 148.5, 125, { align: 'center' });
             doc.text('for completing the Psychometric Assessment', 148.5, 140, { align: 'center' });
             doc.text(`on ${allResults[allResults.length - 1]?.date || 'N/A'}`, 148.5, 150, { align: 'center' });
-
             doc.setLineWidth(0.5);
             doc.line(120, 175, 180, 175);
             doc.setFontSize(14);
@@ -796,123 +530,96 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.text(branding.name, 148.5, 165, { align: 'center' });
             doc.setFontSize(12);
             doc.text('Authorized Sign', 148.5, 180, { align: 'center' });
-
             doc.save(`Psychometrica_Certificate_${studentData['student-name'] || 'Student'}.pdf`);
         } catch (error) {
-            console.error('Error generating certificate:', error);
             showAlert('error', 'Failed to generate certificate.');
         }
     }
 
     async function showAdminDashboard() {
-        console.log('Showing admin dashboard');
         const sections = [
             'login-section', 'standard-selection', 'language-selection',
             'info-section', 'instructions-section', 'test-section', 'results-section'
         ];
-        sections.forEach(id => {
-            const section = document.getElementById(id);
-            if (section) section.classList.add('hidden');
-        });
-
+        sections.forEach(id => document.getElementById(id)?.classList.add('hidden'));
         const adminSection = document.getElementById('admin-section');
-        if (adminSection) adminSection.classList.remove('hidden');
-
+        adminSection.classList.remove('hidden');
         const users = await loadUsers();
-        const adminContent = document.getElementById('admin-content');
-        if (adminContent) {
-            adminContent.innerHTML = `
-                <table id="results-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Student</th>
-                            <th>Parent</th>
-                            <th>Mobile</th>
-                            <th>Email</th>
-                            <th>Grade</th>
-                            <th>Board</th>
-                            <th>Summary</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${allResults.map(r => `
-                            <tr>
-                                <td>${r.date || 'N/A'}</td>
-                                <td>${r.studentData?.['student-name'] || 'N/A'}</td>
-                                <td>${r.studentData?.['parent-name'] || 'N/A'}</td>
-                                <td>${r.studentData?.mobile || 'N/A'}</td>
-                                <td>${r.studentData?.email || 'N/A'}</td>
-                                <td>${r.studentData?.grade || 'N/A'}</td>
-                                <td>${r.studentData?.board || 'N/A'}</td>
-                                <td>${r.summary || 'N/A'}</td>
-                            </tr>
-                        `).join('') || '<tr><td colspan="8">No reports available</td></tr>'}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        const usersTableBody = document.getElementById('users-table-body');
-        if (usersTableBody) {
-            usersTableBody.innerHTML = users.length > 0 ?
-                users.map(user => `
+        document.getElementById('admin-content').innerHTML = `
+            <table id="results-table">
+                <thead>
                     <tr>
-                        <td>${user.email || 'N/A'}</td>
-                        <td>${user.role || 'N/A'}</td>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Parent</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Grade</th>
+                        <th>Board</th>
+                        <th>Summary</th>
                     </tr>
-                `).join('') :
-                '<tr><td colspan="2">No users available</td></tr>';
-        }
-
+                </thead>
+                <tbody>
+                    ${allResults.map(r => `
+                        <tr>
+                            <td>${r.date || 'N/A'}</td>
+                            <td>${r.studentData?.['student-name'] || 'N/A'}</td>
+                            <td>${r.studentData?.['parent-name'] || 'N/A'}</td>
+                            <td>${r.studentData?.mobile || 'N/A'}</td>
+                            <td>${r.studentData?.email || 'N/A'}</td>
+                            <td>${r.studentData?.grade || 'N/A'}</td>
+                            <td>${r.studentData?.board || 'N/A'}</td>
+                            <td>${r.summary || 'N/A'}</td>
+                        </tr>
+                    `).join('') || '<tr><td colspan="8">No reports available</td></tr>'}
+                </tbody>
+            </table>
+        `;
+        document.getElementById('users-table-body').innerHTML = users.length > 0 ?
+            users.map(user => `
+                <tr>
+                    <td>${user.email || 'N/A'}</td>
+                    <td>${user.role || 'N/A'}</td>
+                </tr>
+            `).join('') :
+            '<tr><td colspan="2">No users available</td></tr>';
         updateBrandingThroughout();
     }
 
     async function clearReports() {
-        console.log('Clearing reports');
         if (confirm('Are you sure you want to clear all reports? This action cannot be undone.')) {
             try {
-                const resultsRef = collection(db, 'testResults');
-                const querySnapshot = await getDocs(resultsRef);
-                const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
-                await Promise.all(deletePromises);
-                console.log('All test results deleted from Firestore');
-
+                await fetch('http://localhost:3000/api/clearResults', { method: 'POST' });
                 allResults = [];
-                const adminContent = document.getElementById('admin-content');
-                if (adminContent) {
-                    adminContent.innerHTML = `
-                        <table id="results-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Student</th>
-                                    <th>Parent</th>
-                                    <th>Mobile</th>
-                                    <th>Email</th>
-                                    <th>Grade</th>
-                                    <th>Board</th>
-                                    <th>Summary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="8">No reports available</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    `;
-                }
+                document.getElementById('admin-content').innerHTML = `
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Student</th>
+                                <th>Parent</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Grade</th>
+                                <th>Board</th>
+                                <th>Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8">No reports available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
                 showAlert('success', 'All reports have been cleared successfully.');
             } catch (error) {
-                console.error('Error clearing reports:', error);
                 showAlert('error', 'Failed to clear reports. Please try again.');
             }
         }
     }
 
     function exportAllToExcel() {
-        console.log('Exporting to CSV');
         let csvContent = 'data:text/csv;charset=utf-8,';
         csvContent += 'Date,Student,Parent,Mobile,Email,Age,Grade,Board,Summary\n';
         allResults.forEach(result => {
@@ -939,20 +646,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addNewUser() {
-        console.log('Adding new user');
-        showAlert('error', 'User management is now handled via Firebase Console.');
+        showAlert('error', 'User management is now handled via server.');
     }
 
     function updatePassword() {
-        console.log('Updating password');
-        showAlert('error', 'Password management is now handled via Firebase Console.');
+        showAlert('error', 'Password management is now handled via server.');
     }
 
     function deleteUser() {
-        console.log('Deleting user');
-        showAlert('error', 'User management is now handled via Firebase Console.');
+        showAlert('error', 'User management is now handled via server.');
     }
 
-    console.log('Initializing Psychometrica Pro Plus');
     loadResults();
 });
