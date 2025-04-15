@@ -19,7 +19,7 @@ self.addEventListener('fetch', event => {
     const requestUrl = new URL(event.request.url);
 
     // Allow network fetches for Blogspot scripts via Cloudflare proxy
-    if (requestUrl.href.includes('cors-proxy.yourusername.workers.dev')) {
+    if (requestUrl.href.includes('spring-scene-5326.nexbiz1.workers.dev')) {
         event.respondWith(fetch(event.request));
     } else {
         // Cache-first strategy for local resources
