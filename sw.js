@@ -16,19 +16,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-    const requestUrl = new URL(event.request.url);
-
-    // Allow network fetches for Blogspot scripts via Cloudflare proxy
-    if (requestUrl.href.includes('spring-scene-5326.nexbiz1.workers.dev')) {
-        event.respondWith(fetch(event.request));
-    } else {
-        // Cache-first strategy for local resources
-        event.respondWith(
-            caches.match(event.request).then(response => {
-                return response || fetch(event.request);
-            })
-        );
-    }
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
+        })
+    );
 });
 
 self.addEventListener('activate', event => {
