@@ -3,68 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unlock your full potential with Psychometrica Pro Plus. Expert psychometric tests, fast reports, and personalized insights for students, professionals, and organizations.">
+  <meta property="og:title" content="Psychometrica Pro Plus - Unlock Human Potential">
+  <meta property="og:description" content="Expert psychometric testing for students and professionals. Personalized reports, fast results, and expert consultations.">
+  <meta property="og:image" content="https://psychometrictest.in.net/logo.png">
   <title>Psychometrica Pro Plus - Unlock Human Potential</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #f7f9ff;
-      overflow-x: hidden;
-      color: #1f2a44;
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
     }
     .brain-icon {
-      animation: pulse 2.5s infinite ease-in-out;
+      animation: pulse 2s infinite ease-in-out;
     }
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      50% { transform: scale(1.1); }
     }
     .hero-section {
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      background: linear-gradient(135deg, #1e40af, #60a5fa);
+      padding: 8rem 0;
       position: relative;
       overflow: hidden;
     }
-    .hero-overlay {
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.2" d="M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,133.3C672,128,768,160,864,170.7C960,181,1056,171,1152,160C1248,149,1344,139,1392,133.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-      background-size: cover;
-      padding: 6rem 0;
-    }
-    .feature-card, .solution-card, .benefit-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      transform: translateY(0);
-    }
-    .feature-card:hover, .solution-card:hover, .benefit-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+      opacity: 0.3;
     }
     .cta-button {
-      background: linear-gradient(90deg, #2563eb, #7c3aed);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border-radius: 8px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      transition: all 0.3s ease;
+      border-radius: 10px;
       font-weight: 600;
     }
     .cta-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
     .whatsapp-btn {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
+      bottom: 20px;
+      right: 20px;
       background: #25D366;
       color: white;
       border-radius: 50%;
-      width: 65px;
-      height: 65px;
+      width: 56px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 1000;
       transition: transform 0.3s ease;
     }
@@ -73,326 +71,204 @@
     }
     .section-title {
       position: relative;
-      display: inline-block;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     .section-title::after {
       content: '';
       position: absolute;
-      bottom: -8px;
+      bottom: -0.5rem;
       left: 50%;
       transform: translateX(-50%);
       width: 60px;
       height: 4px;
-      background: #2563eb;
+      background-color: #3b82f6;
       border-radius: 2px;
     }
-    .form-input {
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    header.sticky {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
     }
-    .form-input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    .feature-card, .solution-card {
+      transition: all 0.3s ease;
     }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    .feature-card:hover, .solution-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
+    input, textarea {
+      transition: border-color 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    @media (max-width: 640px) {
+      .hero-section {
+        padding: 4rem 0;
+      }
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- WhatsApp Chat Button -->
-  <a href="https://wa.me/919284157202" target="_blank" class="whatsapp-btn">
-    <i class="fab fa-whatsapp fa-2x"></i>
-  </a>
+  <!-- Header Navigation -->
+  <header class="sticky p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold text-blue-600">Psychometrica</div>
+    <nav class="space-x-6 text-sm font-medium">
+      <a href="#about" class="hover:text-blue-600 transition">About</a>
+      <a href="#features" class="hover:text-blue-600 transition">Features</a>
+      <a href="#solutions" class="hover:text-blue-600 transition">Solutions</a>
+      <a href="#contact" class="hover:text-blue-600 transition">Contact</a>
+    </nav>
+  </header>
 
   <!-- Hero Section -->
-  <section class="hero-section text-center">
-    <div class="hero-overlay">
-      <div class="container mx-auto px-4">
-        <i class="fas fa-brain text-8xl text-white brain-icon mb-6 opacity-90"></i>
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Psychometrica Pro Plus</h1>
-        <p class="text-lg md:text-xl text-white mb-8 max-w-2xl mx-auto opacity-90">Unlock the Power of the Human Mind with Expert Psychometric Solutions</p>
-        <a href="#contact" class="cta-button text-white py-3 px-8 text-lg font-semibold">Start Your Journey</a>
-      </div>
+  <section class="hero-section text-center text-white relative">
+    <div class="max-w-5xl mx-auto px-4">
+      <i class="fas fa-brain text-6xl brain-icon mb-6"></i>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Psychometrica Pro Plus</h1>
+      <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">Unlock your potential with science-based psychometric assessments tailored for you.</p>
+      <a href="#contact" class="cta-button px-8 py-3 text-lg text-white">Get Started</a>
     </div>
   </section>
 
-  <!-- About Us Section -->
-  <section class="py-20 bg-gray-50 fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">About Psychometrica Pro Plus</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">At Psychometrica Pro Plus, we are a team of dedicated psychologists, child development experts, and organizational behavior specialists committed to unlocking human potential. Based in Pune, our mission is to empower individuals, educators, and organizations through cutting-edge psychometric assessments and research-driven insights. Hosted at psychometrictest.in.net, our platform is designed to foster personal growth, academic excellence, and professional success with precision and care.</p>
-      <div class="text-center">
-        <a href="#contact" class="cta-button text-white py-3 px-8 text-lg font-semibold">Connect With Us</a>
-      </div>
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white text-center">
+    <h2 class="text-3xl md:text-4xl font-bold section-title">About Us</h2>
+    <div class="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed">
+      <p>Psychometrica Pro Plus, based in Pune, India, is a leading provider of psychometric assessments designed to empower individuals and organizations.</p>
+      <p>Our mission is to unlock human potential through scientifically validated tools that offer deep insights into personality, skills, and aptitude.</p>
+      <p>We are a team of experienced psychologists, HR professionals, and data scientists dedicated to delivering personalized solutions.</p>
+      <p>Our assessments are trusted by schools, universities, and corporations to foster growth, improve decision-making, and enhance performance.</p>
+      <p>With a commitment to excellence, we strive to make our services accessible, secure, and impactful for clients worldwide.</p>
     </div>
   </section>
 
-  <!-- Quick Benefits Section -->
-  <section class="py-20 bg-white fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">Quick Benefits</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Experience the transformative power of Psychometrica Pro Plus with these key advantages.</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="benefit-card p-8 text-center">
-          <i class="fas fa-lightbulb text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Actionable Insights</h3>
-          <p class="text-gray-600">Receive personalized recommendations to drive growth and success.</p>
-        </div>
-        <div class="benefit-card p-8 text-center">
-          <i class="fas fa-clock text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Fast Results</h3>
-          <p class="text-gray-600">Get detailed reports within 24 hours for quick decision-making.</p>
-        </div>
-        <div class="benefit-card p-8 text-center">
-          <i class="fas fa-globe text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Global Accessibility</h3>
-          <p class="text-gray-600">Access our platform in multiple languages, anytime, anywhere.</p>
-        </div>
+  <!-- Features -->
+  <section id="features" class="py-20 bg-gray-50">
+    <h2 class="text-3xl md:text-4xl font-bold text-center section-title">Why Choose Us</h2>
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      <div class="feature-card p-6 bg-white rounded-xl shadow-md">
+        <i class="fas fa-file-alt text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-2">Detailed Reports</h3>
+        <p class="text-gray-600">Our comprehensive reports provide actionable insights tailored to your needs.</p>
+        <p>Delivered in under 24 hours, they break down complex data into clear, easy-to-understand formats.</p>
+        <p>Each report includes personalized recommendations to help you achieve your goals.</p>
+        <p>Whether for career planning or team development, our insights drive meaningful outcomes.</p>
+        <p>Backed by rigorous psychometric methodologies, our reports are both reliable and precise.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Why Psychometrica Section -->
-  <section class="py-20 bg-white fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">Why Choose Psychometrica Pro Plus?</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Designed by experts in child psychology, cognitive development, and organizational behavior, our platform delivers research-driven insights to empower every stage of life.</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-user-graduate text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Expert-Designed</h3>
-          <p class="text-gray-600">Crafted by renowned psychologists and child development specialists for precision.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-flask text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Research-Driven</h3>
-          <p class="text-gray-600">Backed by extensive scientific research for reliable, actionable insights.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-shield-alt text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Secure & Confidential</h3>
-          <p class="text-gray-600">Your data is protected with industry-leading security protocols.</p>
-        </div>
+      <div class="feature-card p-6 bg-white rounded-xl shadow-md">
+        <i class="fas fa-language text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-2">Multilingual Access</h3>
+        <p>Our platform supports multiple languages, including English, Hindi, Marathi, and more.</p>
+        <p>This ensures accessibility for diverse users across different regions and backgrounds.</p>
+        <p>Language options are seamlessly integrated into our assessments and reports.</p>
+        <p>We aim to make psychometric testing inclusive and user-friendly for everyone.</p>
+        <p>Our team is continually expanding language support to reach a global audience.</p>
       </div>
-      <div class="text-center mt-12">
-        <a href="#solutions" class="cta-button text-white py-3 px-8 text-lg font-semibold">Explore Our Solutions</a>
+      <div class="feature-card p-6 bg-white rounded-xl shadow-md">
+        <i class="fas fa-user-shield text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-2">Data Security</h3>
+        <p>Your privacy is our priority, with end-to-end encryption for all data.</p>
+        <p>We adhere to strict international privacy standards to protect your information.</p>
+        <p>Our secure servers ensure that your assessment results remain confidential.</p>
+        <p>Regular audits and updates keep our systems robust against threats.</p>
+        <p>Trust us to handle your data with the utmost care and professionalism.</p>
       </div>
     </div>
   </section>
 
   <!-- Solutions Section -->
-  <section id="solutions" class="py-20 bg-gray-50 fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">Empowering Every Stage of Life</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">From nurturing young minds to building high-performing teams, our tailored solutions unlock potential at every step.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="solution-card p-6 text-center">
-          <i class="fas fa-baby text-3xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Preschool (3-5)</h3>
-          <p class="text-gray-600">Nurture young minds with cognitive and emotional insights.</p>
-          <a href="#contact" class="text-blue-600 font-semibold mt-4 inline-block hover:underline">Learn More</a>
-        </div>
-        <div class="solution-card p-6 text-center">
-          <i class="fas fa-school text-3xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Children (5-10)</h3>
-          <p class="text-gray-600">Shape bright futures with talent and learning style assessments.</p>
-          <a href="#contact" class="text-blue-600 font-semibold mt-4 inline-block hover:underline">Learn More</a>
-        </div>
-        <div class="solution-card p-6 text-center">
-          <i class="fas fa-user-graduate text-3xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Students</h3>
-          <p class="text-gray-600">Boost employability for MBA, MCA, and Engineering students.</p>
-          <a href="#contact" class="text-blue-600 font-semibold mt-4 inline-block hover:underline">Learn More</a>
-        </div>
-        <div class="solution-card p-6 text-center">
-          <i class="fas fa-users text-3xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Employers</h3>
-          <p class="text-gray-600">Build high-performing teams with precise job-fit evaluations.</p>
-          <a href="#contact" class="text-blue-600 font-semibold mt-4 inline-block hover:underline">Learn More</a>
-        </div>
+  <section id="solutions" class="py-20 bg-white">
+    <h2 class="text-3xl md:text-4xl font-bold text-center section-title">Who We Serve</h2>
+    <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
+      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
+        <i class="fas fa-child text-3xl text-blue-600 mb-3"></i>
+        <h3 class="font-semibold text-lg mb-2">Preschoolers</h3>
+        <p class="text-gray-600 text-sm">Our assessments identify strengths and developmental needs early on.</p>
+        <p>Parents gain insights to support their child’s growth and learning journey.</p>
+        <p>We use engaging, age-appropriate tools to make the process fun and effective.</p>
+        <p>Our reports help educators tailor activities to each child’s unique potential.</p>
+        <p>Start building a strong foundation for lifelong success with us.</p>
+      </div>
+      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
+        <i class="fas fa-school text-3xl text-blue-600 mb-3"></i>
+        <h3 class="font-semibold text-lg mb-2">School Children</h3>
+        <p class="text-gray-600 text-sm">We track learning styles, cognitive abilities, and emotional development.</p>
+        <p>Our tools help teachers create personalized learning plans for students.</p>
+        <p>Parents receive guidance to nurture their child’s academic and social skills.</p>
+        <p>Our assessments foster self-awareness and confidence in young learners.</p>
+        <p>We empower schools to unlock every student’s potential with data-driven insights.</p>
+      </div>
+      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
+        <i class="fas fa-user-graduate text-3xl text-blue-600 mb-3"></i>
+        <h3 class="font-semibold text-lg mb-2">Students</h3>
+        <p class="text-gray-600 text-sm">Our career guidance tools align strengths with future opportunities.</p>
+        <p>We assess skills, interests, and aptitudes to recommend ideal career paths.</p>
+        <p>Students gain clarity on academic choices and professional goals.</p>
+        <p>Our reports enhance employability by highlighting key strengths and areas for growth.</p>
+        <p>Empower your future with personalized insights for success.</p>
+      </div>
+      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
+        <i class="fas fa-briefcase text-3xl text-blue-600 mb-3"></i>
+        <h3 class="font-semibold text-lg mb-2">Employers</h3>
+        <p class="text-gray-600 text-sm">We evaluate team fit, leadership potential, and workplace competencies.</p>
+        <p>Our assessments streamline hiring by identifying top talent efficiently.</p>
+        <p>Employers receive insights to build cohesive, high-performing teams.</p>
+        <p>We offer tools to assess and develop leadership skills for organizational growth.</p>
+        <p>Partner with us to optimize your workforce and drive success.</p>
       </div>
     </div>
   </section>
 
-  <!-- Key Features Section -->
-  <section class="py-20 bg-white fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">Key Features of Psychometrica Pro Plus</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Discover the tools that make Psychometrica the ultimate platform for psychometric excellence.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-book-open text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Comprehensive Test Library</h3>
-          <p class="text-gray-600">Wide range of personality, cognitive, and behavioral assessments.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-file-alt text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Customizable Reports</h3>
-          <p class="text-gray-600">Detailed, actionable insights tailored to your needs.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-globe text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Multi-Language Support</h3>
-          <p class="text-gray-600">Accessible globally in multiple languages.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-chart-line text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Real-Time Analytics</h3>
-          <p class="text-gray-600">Track progress with benchmark comparisons.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-user-md text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Expert Consultations</h3>
-          <p class="text-gray-600">One-on-one guidance from psychologists.</p>
-        </div>
-        <div class="feature-card p-8 text-center">
-          <i class="fas fa-cogs text-4xl text-blue-600 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">HR Integration</h3>
-          <p class="text-gray-600">Seamless integration with HR systems.</p>
-        </div>
-      </div>
-      <div class="text-center mt-12">
-        <a href="#contact" class="cta-button text-white py-3 px-8 text-lg font-semibold">Discover More</a>
-      </div>
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gray-50">
+    <h2 class="text-3xl md:text-4xl font-bold text-center section-title">Get In Touch</h2>
+    <div class="max-w-3xl mx-auto text-center text-gray-600 text-lg mb-8truncation">
+      <p>We’re here to answer your questions and guide you through our services.</p>
+        <p>Let’s work together to unlock your potential with Psychometrica Pro Plus.</p>
     </div>
+    <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md">
+      <input type="hidden" name="_subject" value="New Inquiry from Website">
+      <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html">
+      <div class="mb-6">
+        <label class="block mb-2 font-medium text-gray-700">Name</label>
+        <input name="name" type="text" class="w-full p-3 border rounded-lg bg-gray-50" required>
+      </div>
+      <div class="mb-6">
+        <label class="block mb-2 font-medium text-gray-700">Email</label>
+        <input name="email" type="email" class="w-full p-3 border rounded-lg bg-gray-50" required>
+      </div>
+      <div class="mb-6">
+        <label class="block mb-2 font-medium text-gray-700">Message</label>
+        <textarea name="message" rows="5" class="w-full p-3 border rounded-lg bg-gray-50" required></textarea>
+      </div>
+      <button type="submit" class="cta-button w-full py-3 text-white text-lg">Send Message</button>
+    </form>
   </section>
 
-  <!-- How It Works Section -->
-  <section class="py-20 bg-gray-50 fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">How It Works</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">A simple, streamlined process to unlock actionable insights in just a few steps.</p>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="text-center">
-          <div class="bg-blue-100 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
-            <i class="fas fa-user-plus text-2xl text-blue-600"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">1. Register</h3>
-          <p class="text-gray-600">Sign up at psychometrictest.in.net and choose your segment.</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-blue-100 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
-            <i class="fas fa-pencil-alt text-2xl text-blue-600"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">2. Take the Test</h3>
-          <p class="text-gray-600">Complete user-friendly online assessments at your convenience.</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-blue-100 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
-            <i class="fas fa-file-alt text-2xl text-blue-600"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">3. Receive Insights</h3>
-          <p class="text-gray-600">Get personalized reports within 24 hours.</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-blue-100 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
-            <i class="fas fa-rocket text-2xl text-blue-600"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">4. Act on Results</h3>
-          <p class="text-gray-600">Implement expert suggestions with ongoing support.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Form Section -->
-  <section id="contact" class="py-20 bg-white fade-in">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center section-title">Get in Touch</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Have questions or ready to start? We're here to help you unlock your potential.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div class="flex flex-col justify-center">
-          <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
-          <p class="text-gray-600 mb-4"><i class="fas fa-phone mr-3 text-blue-600"></i>Phone: +91-9284157202</p>
-          <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt mr-3 text-blue-600"></i>Address: Psychometrica Pro Plus, Pimpri-Chinchwad, Pune, Maharashtra, India</p>
-          <p class="text-gray-600"><i class="fas fa-clock mr-3 text-blue-600"></i>Business Hours: Monday–Friday, 9:00 AM–6:00 PM IST</p>
-          <a href="#map" class="mt-6 inline-block cta-button text-white py-3 px-8 text-lg font-semibold">View on Map</a>
-        </div>
-        <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="bg-white p-8 rounded-xl shadow-lg">
-          <input type="hidden" name="_subject" value="New Contact Form Submission">
-          <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html">
-          <div class="mb-6">
-            <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
-            <input type="text" id="name" name="name" class="form-input w-full p-3 border rounded-lg" required>
-          </div>
-          <div class="mb-6">
-            <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-            <input type="email" id="email" name="email" class="form-input w-full p-3 border rounded-lg" required>
-          </div>
-          <div class="mb-6">
-            <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
-            <textarea id="message" name="message" class="form-input w-full p-3 border rounded-lg" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="w-full cta-button text-white py-3 text-lg font-semibold">Submit</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Map Section -->
-  <section id="map" class="py-20 bg-gray-50 fade-in">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold section-title">Visit Us</h2>
-      <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Find us at our Pune office or get in touch for a consultation.</p>
-      <div class="max-w-5xl mx-auto">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.844684497138!2d73.83214431508398!3d18.53551798740519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c06bfffffffb%3A0x7b8a4c4b4b4b4b4b!2sPimpri-Chinchwad%2C%20Pune%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sin!4v1698765432109!5m2!1sen!2sin" width="100%" height="450" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
-      </div>
-      <a href="https://maps.app.goo.gl/YourMapLink" target="_blank" class="mt-8 inline-block cta-button text-white py-3 px-8 text-lg font-semibold">Get Directions</a>
-    </div>
-  </section>
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/919284157202" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp text-2xl"></i>
+  </a>
 
   <!-- Footer -->
-  <footer class="py-12 bg-gray-900 text-white text-center">
-    <div class="container mx-auto px-4">
-      <i class="fas fa-brain text-6xl mb-6 opacity-80"></i>
-      <h3 class="text-3xl font-bold mb-4">Psychometrica Pro Plus</h3>
-      <p class="text-lg mb-4">Pimpri-Chinchwad, Pune, Maharashtra, India</p>
-      <p class="text-lg mb-4">Phone: +91-9284157202</p>
-      <div class="flex justify-center space-x-6 mb-6">
-        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-linkedin fa-2x"></i></a>
-        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-twitter fa-2x"></i></a>
-        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-facebook fa-2x"></i></a>
+  <footer class="py-8 bg-gray-900 text-white text-center">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-4">© 2025 Psychometrica Pro Plus. Designed in Pune, India.</p>
+      <div class="flex justify-center space-x-6">
+        <a href="#" class="hover:text-blue-400"><i class="fab fa-linkedin fa-lg"></i></a>
+        <a href="#" class="hover:text-blue-400"><i class="fab fa-twitter fa-lg"></i></a>
+        <a href="#" class="hover:text-blue-400"><i class="fab fa-instagram fa-lg"></i></a>
       </div>
-      <p class="text-sm opacity-80">© 2025 Psychometrica Pro Plus. All rights reserved.</p>
     </div>
   </footer>
-
-  <script>
-    // Smooth Scroll for Anchor Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Form Submission Feedback
-    const form = document.querySelector('form');
-    form.addEventListener('submit', () => {
-      alert('Thank you for your submission! We will get back to you soon.');
-    });
-
-    // Fade-in Animation on Scroll
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    fadeElements.forEach(element => observer.observe(element));
-  </script>
 </body>
 </html>
