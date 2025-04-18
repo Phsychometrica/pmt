@@ -107,12 +107,27 @@
       outline: none;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
+    .solution-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .solution-card i {
+      transition: transform 0.3s ease;
+    }
+    .solution-card:hover i {
+      transform: scale(1.2);
+    }
     @media (max-width: 640px) {
       .hero-section {
         padding: 4rem 0;
       }
       .hero-section h1 {
         font-size: 2.5rem;
+      }
+      .solution-card {
+        padding: 1rem;
       }
     }
   </style>
@@ -186,72 +201,79 @@
   </section>
 
   <!-- Solutions Section -->
-  <section id="solutions" class="py-20 bg-white">
+  <section id="solutions" class="py-20 bg-gray-50">
     <h2 class="text-3xl md:text-4xl font-bold text-center section-title">Who We Serve</h2>
-    <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
-      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
-        <i class="fas fa-child text-3xl text-blue-600 mb-3"></i>
-        <h3 class="font-semibold text-lg mb-2">Preschoolers</h3>
-        <p class="text-gray-600 text-sm">Our assessments identify strengths and developmental needs early on.</p>
-        <p>Parents gain insights to support their child’s growth and learning journey.</p>
-        <p>We use engaging, age-appropriate tools to make the process fun and effective.</p>
-        <p>Our reports help educators tailor activities to each child’s unique potential.</p>
-        <p>Start building a strong foundation for lifelong success with us.</p>
+    <div class="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+      <div class="solution-card text-center">
+        <i class="fas fa-child text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-3">Preschoolers</h3>
+        <p class="text-gray-600 text-sm">Our assessments are designed to uncover a preschooler’s unique strengths and developmental milestones.</p>
+        <p>We provide parents with clear, actionable insights to support early learning and growth.</p>
+        <p>Our engaging, child-friendly tools ensure a positive and stress-free experience.</p>
+        <p>Educators benefit from detailed reports to tailor activities that spark curiosity and development.</p>
+        <p>Start your child’s journey with a strong foundation for future success.</p>
       </div>
-      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
-        <i class="fas fa-school text-3xl text-blue-600 mb-3"></i>
-        <h3 class="font-semibold text-lg mb-2">School Children</h3>
-        <p class="text-gray-600 text-sm">We track learning styles, cognitive abilities, and emotional development.</p>
-        <p>Our tools help teachers create personalized learning plans for students.</p>
-        <p>Parents receive guidance to nurture their child’s academic and social skills.</p>
-        <p>Our assessments foster self-awareness and confidence in young learners.</p>
-        <p>We empower schools to unlock every student’s potential with data-driven insights.</p>
+      <div class="solution-card text-center">
+        <i class="fas fa-school text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-3">School Children</h3>
+        <p class="text-gray-600 text-sm">We assess learning styles, cognitive strengths, and emotional well-being to support academic success.</p>
+        <p>Teachers receive data-driven insights to create personalized learning plans for each student.</p>
+        <p>Parents gain tools to nurture their child’s confidence, resilience, and social skills.</p>
+        <p>Our assessments promote self-awareness, helping students thrive in and out of the classroom.</p>
+        <p>We partner with schools to unlock every child’s potential with tailored solutions.</p>
       </div>
-      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
-        <i class="fas fa-user-graduate text-3xl text-blue-600 mb-3"></i>
-        <h3 class="font-semibold text-lg mb-2">Students</h3>
-        <p class="text-gray-600 text-sm">Our career guidance tools align strengths with future opportunities.</p>
-        <p>We assess skills, interests, and aptitudes to recommend ideal career paths.</p>
-        <p>Students gain clarity on academic choices and professional goals.</p>
-        <p>Our reports enhance employability by highlighting key strengths and areas for growth.</p>
-        <p>Empower your future with personalized insights for success.</p>
+      <div class="solution-card text-center">
+        <i class="fas fa-user-graduate text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-3">Students</h3>
+        <p class="text-gray-600 text-sm">Our career assessments align your strengths, interests, and skills with ideal career paths.</p>
+        <p>We provide clarity on academic choices, from course selection to higher education planning.</p>
+        <p>Our reports highlight employability strengths and areas for skill development.</p>
+        <p>Students gain confidence in their future with personalized, science-backed guidance.</p>
+        <p>Empower your academic and professional journey with insights that set you apart.</p>
       </div>
-      <div class="solution-card text-center p-6 bg-gray-50 rounded-xl">
-        <i class="fas fa-briefcase text-3xl text-blue-600 mb-3"></i>
-        <h3 class="font-semibold text-lg mb-2">Employers</h3>
-        <p class="text-gray-600 text-sm">We evaluate team fit, leadership potential, and workplace competencies.</p>
-        <p>Our assessments streamline hiring by identifying top talent efficiently.</p>
-        <p>Employers receive insights to build cohesive, high-performing teams.</p>
-        <p>We offer tools to assess and develop leadership skills for organizational growth.</p>
-        <p>Partner with us to optimize your workforce and drive success.</p>
+      <div class="solution-card text-center">
+        <i class="fas fa-briefcase text-4xl text-blue-600 mb-4"></i>
+        <h3 class="font-semibold text-xl mb-3">Employers</h3>
+        <p class="text-gray-600 text-sm">We assess team fit, leadership potential, and core competencies to optimize your workforce.</p>
+        <p>Our tools streamline recruitment by identifying candidates who align with your company culture.</p>
+        <p>Employers receive actionable insights to build cohesive, high-performing teams.</p>
+        <p>We offer leadership development assessments to nurture future leaders within your organization.</p>
+        <p>Partner with us to drive productivity and success through data-driven hiring and growth.</p>
       </div>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gray-50">
+  <section id="contact" class="py-20 bg-white">
     <h2 class="text-3xl md:text-4xl font-bold text-center section-title">Get In Touch</h2>
-    <div class="max-w-3xl mx-auto text-center text-gray-600 text-lg mb-8truncation">
-      <p>We’re here to answer your questions and guide you through our services.</p>
-        <p>Let’s work together to unlock your potential with Psychometrica Pro Plus.</p>
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Contact Details</h3>
+        <p class="text-gray-600 mb-2"><i class="fas fa-phone-alt mr-2"></i>Phone: <a href="tel:+919284157202" class="hover:text-blue-600">+919284157202</a></p>
+        <p class="text-gray-600 mb-2"><i class="fas fa-envelope mr-2"></i>Email: <a href="mailto:equimedia3@gmail.com" class="hover:text-blue-600">equimedia3@gmail.com</a></p>
+        <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>Address: Pimpri-Chinchwad, Pune, India</p>
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.97735367176!2d73.79911391489287!3d18.629961987350793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9d92a6e6e57%3A0x1e6e7b7b0d7b8f0e!2sPimpri-Chinchwad%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1697649375090!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="bg-white p-8 rounded-xl shadow-md">
+        <input type="hidden" name="_subject" value="New Inquiry from Website">
+        <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html">
+        <div class="mb-6">
+          <label class="block mb-2 font-medium text-gray-700">Name</label>
+          <input name="name" type="text" class="w-full p-3 border rounded-lg bg-gray-50" required>
+        </div>
+        <div class="mb-6">
+          <label class="block mb-2 font-medium text-gray-700">Email</label>
+          <input name="email" type="email" class="w-full p-3 border rounded-lg bg-gray-50" required>
+        </div>
+        <div class="mb-6">
+          <label class="block mb-2 font-medium text-gray-700">Message</label>
+          <textarea name="message" rows="5" class="w-full p-3 border rounded-lg bg-gray-50" required></textarea>
+        </div>
+        <button type="submit" class="cta-button w-full py-3 text-white text-lg">Send Message</button>
+      </form>
     </div>
-    <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md">
-      <input type="hidden" name="_subject" value="New Inquiry from Website">
-      <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html">
-      <div class="mb-6">
-        <label class="block mb-2 font-medium text-gray-700">Name</label>
-        <input name="name" type="text" class="w-full p-3 border rounded-lg bg-gray-50" required>
-      </div>
-      <div class="mb-6">
-        <label class="block mb-2 font-medium text-gray-700">Email</label>
-        <input name="email" type="email" class="w-full p-3 border rounded-lg bg-gray-50" required>
-      </div>
-      <div class="mb-6">
-        <label class="block mb-2 font-medium text-gray-700">Message</label>
-        <textarea name="message" rows="5" class="w-full p-3 border rounded-lg bg-gray-50" required></textarea>
-      </div>
-      <button type="submit" class="cta-button w-full py-3 text-white text-lg">Send Message</button>
-    </form>
   </section>
 
   <!-- WhatsApp Button -->
