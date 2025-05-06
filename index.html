@@ -3,271 +3,283 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Psychometrica Pro Plus – Empowering Human Potential</title>
+    <title>Psychometrica Pro Plus – Unleashing Human Excellence</title>
 
-    <meta name="description" content="Discover Psychometrica Pro Plus: advanced psychometric assessments for students, professionals and organisations. Fast, personalised insight to unlock potential.">
-    <meta property="og:title" content="Psychometrica Pro Plus – Empowering Human Potential">
-    <meta property="og:description" content="Transform lives with expert psychometric testing. Fast results, detailed reports and tailored guidance for all.">
-    <meta property="og:image" content="https://psychometrictest.in.net/logo.png"> <meta property="og:url" content="https://psychometrictest.in.net/"> <meta property="og:type" content="website">
+    <meta name="description" content="Experience Psychometrica Pro Plus: Next-gen psychometric assessments for students, professionals, and organizations. Unlock potential with precision and speed.">
+    <meta property="og:title" content="Psychometrica Pro Plus – Unleashing Human Excellence">
+    <meta property="og:description" content="Elevate lives with cutting-edge psychometric testing. Instant insights, in-depth reports, and personalized strategies for success.">
+    <meta property="og:image" content="https://psychometrictest.in.net/logo.png">
+    <meta property="og:url" content="https://psychometrictest.in.net/">
+    <meta property="og:type" content="website">
 
-    <link rel="icon" href="https://psychometrictest.in.net/favicon.ico" type="image/x-icon"> <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-
+    <link rel="icon" href="https://psychometrictest.in.net/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
     <style>
-        /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-        /* Default font */
+
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Subtle brain pulse animation */
-        @keyframes subtlePulse {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-        .brain-icon {
-            animation: subtlePulse 3s ease-in-out infinite;
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Navigation link hover effect */
+        @keyframes brainGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6)); }
+        }
+        .brain-icon {
+            animation: brainGlow 2.5s ease-in-out infinite;
+        }
+
         .nav-link {
             position: relative;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
         .nav-link::after {
             content: '';
             position: absolute;
             left: 0;
-            bottom: -4px; /* Position underline slightly below text */
+            bottom: -4px;
             width: 0;
             height: 2px;
-            background-color: #2563eb; /* Tailwind blue-600 */
+            background: linear-gradient(to right, #3b82f6, #a855f7);
             transition: width 0.3s ease;
         }
         .nav-link:hover::after {
             width: 100%;
         }
-        /* Active link styling (optional, requires JS to track scroll position) */
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
         .nav-link.active {
-            color: #2563eb; /* Tailwind blue-600 */
-            font-weight: 600; /* Slightly bolder */
+            color: #3b82f6;
+            font-weight: 600;
         }
         .nav-link.active::after {
-            width: 100%; /* Show underline for active link */
+            width: 100%;
         }
 
-
-        /* Fade-in animation */
-        .fade-in-element {
+        .fade-in {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .fade-in-element.is-visible {
+        .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Card hover effect */
-        .hover-lift {
+        .card-hover {
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            background-color: #f8fafc;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .map-iframe {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-button {
+            background: linear-gradient(45deg, #3b82f6, #a855f7);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* Tailwind shadow-lg */
+        .gradient-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
         }
-
-        /* Custom focus styles for form elements */
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #2563eb; /* Tailwind blue-600 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Tailwind blue-500 with opacity */
-        }
-
-        /* Style the map iframe */
-        .map-iframe {
-             border: 1px solid #e5e7eb; /* Tailwind gray-200 */
-        }
-
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 overflow-x-hidden antialiased">
-
-    <header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-lg shadow-sm transition-all duration-300">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-            <a href="#" class="text-2xl font-extrabold text-blue-700 hover:text-blue-800 transition-colors">
+<body class="bg-gray-50 text-gray-900 overflow-x-hidden antialiased">
+    <header class="fixed top-0 z-50 w-full bg-white/95 backdrop-blur-xl shadow-lg transition-all duration-500">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+            <a href="#" class="text-3xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
                 Psychometrica
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="#about" class="nav-link text-slate-700 hover:text-blue-600">About</a>
-                <a href="#features" class="nav-link text-slate-700 hover:text-blue-600">Features</a>
-                <a href="#solutions" class="nav-link text-slate-700 hover:text-blue-600">Solutions</a>
-                <a href="#contact" class="nav-link text-slate-700 hover:text-blue-600">Contact</a>
-                <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="nav-link text-slate-700 hover:text-blue-600">Payment</a>
+            <nav class="hidden md:flex items-center gap-10 text-base font-semibold">
+                <a href="#about" class="nav-link text-gray-700 hover:text-blue-600">About</a>
+                <a href="#features" class="nav-link text-gray-700 hover:text-blue-600">Features</a>
+                <a href="#solutions" class="nav-link text-gray-700 hover:text-blue-600">Solutions</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600">Contact</a>
+                <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="nav-link text-gray-700 hover:text-blue-600">Payment</a>
             </nav>
 
-            <button id="burger" aria-label="Toggle menu" class="md:hidden text-blue-700 text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            <button id="burger" aria-label="Toggle menu" class="md:hidden text-blue-600 text-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <nav id="mobileNav" class="hidden md:hidden flex-col space-y-2 bg-white px-6 pb-4 shadow-md absolute w-full left-0 top-full">
-            <a href="#about" class="block py-2 text-slate-700 hover:text-blue-600 transition-colors">About</a>
-            <a href="#features" class="block py-2 text-slate-700 hover:text-blue-600 transition-colors">Features</a>
-            <a href="#solutions" class="block py-2 text-slate-700 hover:text-blue-600 transition-colors">Solutions</a>
-            <a href="#contact" class="block py-2 text-slate-700 hover:text-blue-600 transition-colors">Contact</a>
-            <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="block py-2 text-slate-700 hover:text-blue-600 transition-colors">Payment</a>
+        <nav id="mobileNav" class="hidden md:hidden flex-col space-y-3 bg-white px-6 py-4 shadow-2xl absolute w-full left-0 top-full">
+            <a href="#about" class="block py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors">About</a>
+            <a href="#features" class="block py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors">Features</a>
+            <a href="#solutions" class="block py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors">Solutions</a>
+            <a href="#contact" class="block py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors">Contact</a>
+            <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="block py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors">Payment</a>
         </nav>
     </header>
 
     <main>
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-700 via-indigo-600 to-purple-700 py-28 md:py-36 text-center text-white">
-            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M12.5%200%20L0%2012.5%20L12.5%2025%20L25%2012.5%20Z%20M37.5%200%20L25%2012.5%20L37.5%2025%20L50%2012.5%20Z%20M62.5%200%20L50%2012.5%20L62.5%2025%20L75%2012.5%20Z%20M87.5%200%20L75%2012.5%20L87.5%2025%20L100%2012.5%20Z%20M0%2037.5%20L12.5%2050%20L0%2062.5%20L-12.5%2050%20Z%20M25%2037.5%20L37.5%2050%20L25%2062.5%20L12.5%2050%20Z%20M50%2037.5%20L62.5%2050%20L50%2062.5%20L37.5%2050%20Z%20M75%2037.5%20L87.5%2050%20L75%2062.5%20L62.5%2050%20Z%20M100%2037.5%20L112.5%2050%20L100%2062.5%20L87.5%2050%20Z%20M12.5%2075%20L0%2087.5%20L12.5%20100%20L25%2087.5%20Z%20M37.5%2075%20L25%2087.5%20L37.5%20100%20L50%2087.5%20Z%20M62.5%2075%20L50%2087.5%20L62.5%20100%20L75%2087.5%20Z%20M87.5%2075%20L75%2087.5%20L87.5%20100%20L100%2087.5%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fsvg%3E')]"></div>
+        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 py-32 md:py-40 text-center text-white">
+            <div class="absolute inset-0 opacity-15 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2240%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%224%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E')]"></div>
 
-            <div class="relative z-10 mx-auto max-w-4xl px-6">
-                <i class="fa-solid fa-brain text-7xl mb-8 brain-icon text-white/90"></i>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">Psychometrica Pro Plus</h1>
-                <p class="text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto text-indigo-100">
-                    Empower your future with cutting-edge psychometric assessments tailored to unlock your unique potential.
+            <div class="relative z-10 mx-auto max-w-5xl px-6">
+                <i class="fa-solid fa-brain text-8xl mb-10 brain-icon"></i>
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">Psychometrica Pro Plus</h1>
+                <p class="text-xl md:text-2xl mb-12 leading-relaxed max-w-3xl mx-auto text-blue-100">
+                    Revolutionize your growth with advanced psychometric assessments designed to unlock your true potential.
                 </p>
-                <a href="#contact" class="inline-block rounded-full bg-white px-10 py-4 text-lg font-semibold text-blue-700 shadow-lg hover:bg-slate-100 hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    Start Your Journey
+                <a href="#contact" class="gradient-button inline-block rounded-full px-12 py-5 text-lg font-semibold text-white shadow-xl hover:shadow-2xl transition duration-300">
+                    Begin Your Transformation
                 </a>
             </div>
         </section>
 
-        <section id="about" class="py-24 lg:py-32 bg-white">
-            <div class="mx-auto max-w-4xl px-6 text-center">
-                <h2 class="section-title fade-in-element text-3xl md:text-4xl font-bold mb-6 text-slate-900">Our Mission</h2>
-                <div class="prose prose-lg lg:prose-xl max-w-none mx-auto text-slate-600 space-y-5 fade-in-element">
-                    <p>Based in Pune, India, Psychometrica Pro Plus is a global leader in psychometric assessments, dedicated to transforming lives through science-backed insights.</p>
-                    <p>Our mission is to empower individuals and organizations by revealing strengths, aptitudes, and personality traits that drive success.</p>
-                    <p>With a team of expert psychologists, HR specialists, and data scientists, we deliver personalized, actionable solutions for all.</p>
-                    <p>Trusted by educational institutions and corporations worldwide, our assessments foster growth, enhance decision-making, and elevate performance.</p>
-                    <p>We are committed to accessibility, security, and excellence, ensuring every client achieves their full potential.</p>
+        <section id="about" class="py-28 lg:py-36 bg-white">
+            <div class="mx-auto max-w-5xl px-6 text-center">
+                <h2 class="fade-in text-4xl md:text-5xl font-bold mb-10 text-gray-900">Our Vision</h2>
+                <div class="prose prose-lg lg:prose-xl max-w-none mx-auto text-gray-600 space-y-6 fade-in">
+                    <p>Headquartered in Pimpri-Chinchwad, Pune, Psychometrica Pro Plus is a global pioneer in psychometric innovation.</p>
+                    <p>Our vision is to empower every individual and organization with precise, science-driven insights into their strengths and potential.</p>
+                    <p>Backed by a team of world-class psychologists, data scientists, and HR experts, we deliver transformative solutions.</p>
+                    <p>Trusted by schools, universities, and corporations worldwide, we drive success through clarity and actionable guidance.</p>
+                    <p>Our commitment to inclusivity, security, and excellence ensures everyone can achieve greatness.</p>
                 </div>
             </div>
         </section>
 
-        <section id="features" class="py-24 lg:py-32 bg-slate-100">
+        <section id="features" class="py-28 lg:py-36 bg-gray-100">
             <div class="mx-auto max-w-7xl px-6">
-                <h2 class="section-title fade-in-element text-center text-3xl md:text-4xl font-bold mb-16 text-slate-900">Our Strengths</h2>
-                <div class="grid gap-8 md:grid-cols-3">
-                    <article class="feature-card fade-in-element group space-y-4 rounded-xl bg-white p-8 shadow-md hover-lift transition duration-300">
-                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-5">
-                           <i class="fas fa-chart-line text-blue-600 text-3xl transition duration-300 group-hover:scale-110"></i>
+                <h2 class="fade-in text-center text-4xl md:text-5xl font-bold mb-20 text-gray-900">Why Choose Us</h2>
+                <div class="grid gap-10 md:grid-cols-3">
+                    <article class="fade-in card-hover group space-y-5 rounded-2xl bg-white p-10 shadow-lg">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 mb-6">
+                            <i class="fas fa-chart-line text-blue-600 text-4xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="text-2xl font-semibold text-slate-900">Insightful Reports</h3>
-                        <p class="text-slate-600 leading-relaxed">Receive comprehensive, easy-to-understand reports in under 24 hours. Tailored insights and recommendations empower personal and professional growth, backed by rigorous science.</p>
+                        <h3 class="text-2xl font-semibold text-gray-900">Precision Analytics</h3>
+                        <p class="text-gray-600 leading-relaxed">Get detailed, science-backed reports in under 24 hours, with personalized recommendations to fuel your growth.</p>
                     </article>
-                    <article class="feature-card fade-in-element group space-y-4 rounded-xl bg-white p-8 shadow-md hover-lift transition duration-300" style="transition-delay: 100ms;">
-                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-5">
-                            <i class="fas fa-globe text-blue-600 text-3xl transition duration-300 group-hover:scale-110"></i>
+                    <article class="fade-in card-hover group space-y-5 rounded-2xl bg-white p-10 shadow-lg" style="transition-delay: 150ms;">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 mb-6">
+                            <i class="fas fa-globe text-blue-600 text-4xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="text-2xl font-semibold text-slate-900">Global Accessibility</h3>
-                        <p class="text-slate-600 leading-relaxed">Available in multiple languages—English, Hindi, Marathi, and more. Our inclusive platform ensures seamless access for diverse users, with continual expansion.</p>
+                        <h3 class="text-2xl font-semibold text-gray-900">Worldwide Reach</h3>
+                        <p class="text-gray-600 leading-relaxed">Accessible in English, Hindi, Marathi, and beyond, our platform supports diverse users globally.</p>
                     </article>
-                    <article class="feature-card fade-in-element group space-y-4 rounded-xl bg-white p-8 shadow-md hover-lift transition duration-300" style="transition-delay: 200ms;">
-                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-5">
-                            <i class="fas fa-shield-alt text-blue-600 text-3xl transition duration-300 group-hover:scale-110"></i>
+                    <article class="fade-in card-hover group space-y-5 rounded-2xl bg-white p-10 shadow-lg" style="transition-delay: 300ms;">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 mb-6">
+                            <i class="fas fa-shield-alt text-blue-600 text-4xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="text-2xl font-semibold text-slate-900">Uncompromised Security</h3>
-                        <p class="text-slate-600 leading-relaxed">End-to-end encryption and routine security audits keep your data private and secure—trust us to safeguard your information with the highest professionalism.</p>
+                        <h3 class="text-2xl font-semibold text-gray-900">Top-Tier Security</h3>
+                        <p class="text-gray-600 leading-relaxed">Your data is protected with end-to-end encryption and rigorous security protocols for total peace of mind.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="solutions" class="py-24 lg:py-32 bg-white">
+        <section id="solutions" class="py-28 lg:py-36 bg-white">
             <div class="mx-auto max-w-7xl px-6">
-                <h2 class="section-title fade-in-element text-center text-3xl md:text-4xl font-bold mb-16 text-slate-900">Who We Empower</h2>
+                <h2 class="fade-in text-center text-4xl md:text-5xl font-bold mb-20 text-gray-900">Who We Serve</h2>
                 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                    <article class="solution-card fade-in-element group rounded-xl border border-slate-200 bg-white p-6 text-center hover-lift transition duration-300">
-                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-6">
-                           <i class="fas fa-child text-indigo-600 text-3xl transition duration-300 group-hover:scale-110"></i>
+                    <article class="fade-in card-hover group rounded-2xl border border-gray-100 bg-white p-8 text-center">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mx-auto mb-6">
+                            <i class="fas fa-child text-indigo-600 text-3xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="font-semibold text-xl mb-3 text-slate-900">Preschoolers</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Discover unique strengths with engaging assessments, giving parents & educators a foundation for lifelong success.</p>
+                        <h3 class="font-semibold text-xl mb-4 text-gray-900">Preschoolers</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Fun, engaging assessments to uncover early strengths and guide parents toward nurturing potential.</p>
                     </article>
-                    <article class="solution-card fade-in-element group rounded-xl border border-slate-200 bg-white p-6 text-center hover-lift transition duration-300" style="transition-delay: 100ms;">
-                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-6">
+                    <article class="fade-in card-hover group rounded-2xl border border-gray-100 bg-white p-8 text-center" style="transition-delay: 150ms;">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mx-auto mb-6">
                             <i class="fas fa-school text-indigo-600 text-3xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="font-semibold text-xl mb-3 text-slate-900">School Children</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Identify learning styles & emotional strengths for academic success and boost confidence with personalized plans.</p>
+                        <h3 class="font-semibold text-xl mb-4 text-gray-900">School Children</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Tailored insights into learning styles and emotional intelligence to boost academic and personal growth.</p>
                     </article>
-                    <article class="solution-card fade-in-element group rounded-xl border border-slate-200 bg-white p-6 text-center hover-lift transition duration-300" style="transition-delay: 200ms;">
-                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-6">
+                    <article class="fade-in card-hover group rounded-2xl border border-gray-100 bg-white p-8 text-center" style="transition-delay: 300ms;">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mx-auto mb-6">
                             <i class="fas fa-user-graduate text-indigo-600 text-3xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="font-semibold text-xl mb-3 text-slate-900">Students</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Align strengths with ideal academic & career paths through science-backed assessments—gain clarity and stand out.</p>
+                        <h3 class="font-semibold text-xl mb-4 text-gray-900">Students</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Clear guidance on academic and career paths through precise, data-driven assessments.</p>
                     </article>
-                    <article class="solution-card fade-in-element group rounded-xl border border-slate-200 bg-white p-6 text-center hover-lift transition duration-300" style="transition-delay: 300ms;">
-                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-6">
+                    <article class="fade-in card-hover group rounded-2xl border border-gray-100 bg-white p-8 text-center" style="transition-delay: 450ms;">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mx-auto mb-6">
                             <i class="fas fa-briefcase text-indigo-600 text-3xl transition duration-300 group-hover:scale-110"></i>
                         </div>
-                        <h3 class="font-semibold text-xl mb-3 text-slate-900">Employers</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Optimise hiring & team-building by assessing fit and leadership potential—develop high-performing teams.</p>
+                        <h3 class="font-semibold text-xl mb-4 text-gray-900">Employers</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Enhance hiring and team dynamics with assessments that reveal leadership and fit.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="py-24 lg:py-32 bg-slate-100">
-             <div class="mx-auto max-w-7xl px-6">
-                <h2 class="section-title fade-in-element text-center text-3xl md:text-4xl font-bold mb-16 text-slate-900">Connect With Us</h2>
+        <section id="contact" class="py-28 lg:py-36 bg-gray-100">
+            <div class="mx-auto max-w-7xl px-6">
+                <h2 class="fade-in text-center text-4xl md:text-5xl font-bold mb-20 text-gray-900">Let’s Connect</h2>
                 <div class="grid gap-12 md:grid-cols-2 items-start">
-                    <div class="space-y-8 fade-in-element">
+                    <div class="space-y-10 fade-in">
                         <div>
-                            <h3 class="text-2xl font-semibold mb-4 text-slate-900">Get in Touch</h3>
-                            <div class="space-y-4 text-slate-700">
-                                <p class="flex items-center"><i class="fas fa-phone-alt mr-3 text-blue-600 w-5 text-center"></i>Phone: <a href="tel:+919284157202" class="ml-1 hover:text-blue-600 transition-colors">+91 92841 57202</a></p>
-                                <p class="flex items-center"><i class="fas fa-envelope mr-3 text-blue-600 w-5 text-center"></i>Email: <a href="mailto:info@psychometrictest.in.net" class="ml-1 hover:text-blue-600 transition-colors">info@psychometrictest.in.net</a></p>
-                                <p class="flex items-start"><i class="fas fa-map-marker-alt mr-3 text-blue-600 w-5 text-center pt-1"></i>Address: Pimpri-Chinchwad, Pune – India</p>
+                            <h3 class="text-3xl font-semibold mb-6 text-gray-900">Reach Out</h3>
+                            <div class="space-y-5 text-gray-700">
+                                <p class="flex items-center"><i class="fas fa-phone-alt mr-4 text-blue-600 w-6 text-center"></i>Phone: <a href="tel:+919284157202" class="ml-2 hover:text-blue-600 transition-colors">+91 92841 57202</a></p>
+                                <p class="flex items-center"><i class="fas fa-envelope mr-4 text-blue-600 w-6 text-center"></i>Email: <a href="mailto:info@psychometrictest.in.net" class="ml-2 hover:text-blue-600 transition-colors">info@psychometrictest.in.net</a></p>
+                                <p class="flex items-start"><i class="fas fa-map-marker-alt mr-4 text-blue-600 w-6 text-center pt-1"></i>Address: Pimpri-Chinchwad, Pune – India</p>
                             </div>
                         </div>
                         <div>
                             <iframe
-                                class="rounded-xl shadow-md w-full h-72 map-iframe"
+                                class="map-iframe w-full h-80"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d232817.05626653248!2d73.62733231654512!3d18.640623358266257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b8377fbdeab3%3A0x2c4265dab1a7a0f8!2sPimpri-Chinchwad%2C%20Maharashtra!5e1!3m2!1sen!2sin!4v1746499040614!5m2!1sen!2sin"
+                                style="border:0;"
+                                allowfullscreen=""
                                 loading="lazy"
-                                allowfullscreen
-                                referrerpolicy="no-referrer-when-downgrade"
-                                src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=Pimpri-Chinchwad,Pune+India"> </iframe>
-                             <p class="text-xs text-slate-500 mt-2">Note: Requires Google Maps API Key for embedding.</p>
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
                         </div>
                     </div>
 
-                    <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="fade-in-element space-y-6 rounded-xl bg-white p-8 shadow-lg" style="transition-delay: 150ms;">
+                    <form action="https://formsubmit.co/equimedia3@gmail.com" method="POST" class="fade-in space-y-8 rounded-2xl bg-white p-10 shadow-xl" style="transition-delay: 200ms;">
                         <input type="hidden" name="_subject" value="New Inquiry from Psychometrica Website">
-                        <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html"> <input type="text" name="_honey" style="display:none"> <input type="hidden" name="_captcha" value="false"> <h3 class="text-2xl font-semibold mb-4 text-slate-900">Send Us a Message</h3>
+                        <input type="hidden" name="_next" value="https://psychometrictest.in.net/thank-you.html">
+                        <input type="text" name="_honey" style="display:none">
+                        <input type="hidden" name="_captcha" value="false">
+                        <h3 class="text-3xl font-semibold mb-6 text-gray-900">Drop Us a Line</h3>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-slate-700">Full Name</label>
-                            <input id="name" name="name" type="text" placeholder="Your Name" class="w-full rounded-lg border border-slate-300 px-4 py-3 bg-slate-50 focus:bg-white transition duration-200" required>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
+                            <input id="name" name="name" type="text" placeholder="Your Name" class="w-full rounded-lg border border-gray-200 px-5 py-4 bg-gray-50 focus:bg-white transition duration-300" required>
                         </div>
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-slate-700">Email Address</label>
-                            <input id="email" name="email" type="email" placeholder="you@example.com" class="w-full rounded-lg border border-slate-300 px-4 py-3 bg-slate-50 focus:bg-white transition duration-200" required>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
+                            <input id="email" name="email" type="email" placeholder="you@example.com" class="w-full rounded-lg border border-gray-200 px-5 py-4 bg-gray-50 focus:bg-white transition duration-300" required>
                         </div>
                         <div>
-                            <label for="message" class="block mb-2 text-sm font-medium text-slate-700">Your Message</label>
-                            <textarea id="message" name="message" rows="5" placeholder="How can we help you?" class="w-full rounded-lg border border-slate-300 px-4 py-3 bg-slate-50 focus:bg-white transition duration-200" required></textarea>
+                            <label for="message" class="block mb-2 text-sm font-medium text-gray-700">Your Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="How can we assist you?" class="w-full rounded-lg border border-gray-200 px-5 py-4 bg-gray-50 focus:bg-white transition duration-300" required></textarea>
                         </div>
-                        <button type="submit" class="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 py-3 px-6 text-lg font-semibold text-white shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition duration-300 ease-in-out transform hover:-translate-y-0.5">
-                            Submit Inquiry
+                        <button type="submit" class="gradient-button w-full rounded-lg py-4 px-8 text-lg font-semibold text-white shadow-lg hover:shadow-xl transition duration-300">
+                            Send Message
                         </button>
                     </form>
                 </div>
@@ -275,45 +287,43 @@
         </section>
 
         <a href="https://wa.me/919284157202?text=Hello%2C%20I%20have%20a%20question%20about%20Psychometrica%20Pro%20Plus." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"
-           class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-3xl text-white shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-xl">
+           class="fixed bottom-8 right-8 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-4xl text-white shadow-xl transition-transform duration-300 hover:scale-110 hover:shadow-2xl">
             <i class="fab fa-whatsapp"></i>
         </a>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12">
+    <footer class="bg-gray-900 text-gray-300 py-16">
         <div class="mx-auto max-w-7xl px-6 text-center">
-            <p class="mb-4 text-base">© <span id="currentYear"></span> Psychometrica Pro Plus. All Rights Reserved.</p>
-            <p class="mb-6 text-sm">Crafted with care in Pune, India.</p>
+            <p class="mb-6 text-lg">© <span id="currentYear"></span> Psychometrica Pro Plus. All Rights Reserved.</p>
+            <p class="mb-8 text-sm">Designed & Built in Pimpri-Chinchwad, Pune, India.</p>
 
-            <div class="mb-8 space-x-6">
-                <a href="#about" class="hover:text-white transition-colors text-sm">About</a>
-                <a href="#features" class="hover:text-white transition-colors text-sm">Features</a>
-                <a href="#solutions" class="hover:text-white transition-colors text-sm">Solutions</a>
-                <a href="#contact" class="hover:text-white transition-colors text-sm">Contact</a>
-                <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors text-sm font-medium">Make Payment</a>
-                </div>
+            <div class="mb-10 space-x-8">
+                <a href="#about" class="hover:text-white transition-colors text-base font-medium">About</a>
+                <a href="#features" class="hover:text-white transition-colors text-base font-medium">Features</a>
+                <a href="#solutions" class="hover:text-white transition-colors text-base font-medium">Solutions</a>
+                <a href="#contact" class="hover:text-white transition-colors text-base font-medium">Contact</a>
+                <a href="https://payment.psychometricaproplus.com/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors text-base font-medium">Make Payment</a>
+            </div>
 
-            <div class="flex justify-center gap-6 text-2xl">
+            <div class="flex justify-center gap-8 text-3xl">
                 <a href="#" aria-label="LinkedIn" class="hover:text-blue-400 transition-colors"><i class="fab fa-linkedin"></i></a>
                 <a href="#" aria-label="Twitter" class="hover:text-sky-400 transition-colors"><i class="fab fa-twitter"></i></a>
                 <a href="#" aria-label="Instagram" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram"></i></a>
-                 </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- Mobile Navigation Toggle ---
+        // Mobile Navigation Toggle
         const burgerButton = document.getElementById('burger');
         const mobileNav = document.getElementById('mobileNav');
 
         burgerButton.addEventListener('click', () => {
             mobileNav.classList.toggle('hidden');
-            // Optional: Toggle ARIA attribute for accessibility
             const isExpanded = mobileNav.classList.contains('hidden') ? 'false' : 'true';
             burgerButton.setAttribute('aria-expanded', isExpanded);
         });
 
-        // Close mobile nav if clicking outside of it (optional)
         document.addEventListener('click', (event) => {
             const isClickInsideNav = mobileNav.contains(event.target);
             const isClickOnBurger = burgerButton.contains(event.target);
@@ -324,20 +334,20 @@
             }
         });
 
-        // --- Fade-in Elements on Scroll ---
-        const fadeInElements = document.querySelectorAll('.fade-in-element');
+        // Fade-in Animations
+        const fadeInElements = document.querySelectorAll('.fade-in');
 
         const observerOptions = {
-            root: null, // relative to the viewport
+            root: null,
             rootMargin: '0px',
-            threshold: 0.1 // trigger when 10% of the element is visible
+            threshold: 0.15
         };
 
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Stop observing once visible
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
         };
@@ -348,13 +358,27 @@
             intersectionObserver.observe(el);
         });
 
-        // --- Update Footer Year ---
+        // Active Nav Link Highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Update Footer Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // --- Optional: Active Nav Link Highlighting on Scroll ---
-        // (More complex: requires tracking scroll position relative to sections)
-        // Consider adding this if precise active state highlighting is needed.
-
     </script>
-</body>
-</html>
